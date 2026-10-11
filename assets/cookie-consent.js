@@ -25,7 +25,8 @@
      Så länge det står G-XXXXXXXXXX gör skriptet ingenting: ingen
      cookie-ruta visas och ingen spårning laddas.
      ================================================================== */
-  var GA_MEASUREMENT_ID = "G-XXXXXXXXXX";
+  var GA_MEASUREMENT_ID = "G-WH7YVHP486
+";
 
   var STORAGE_KEY = "rk-cookie-consent";
   var MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
