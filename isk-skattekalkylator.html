@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ISK-skattekalkylator 2026: räkna ut din skatt | Räntakalkylatorn</title>
+<meta name="description" content="Räkna ut din ISK-skatt för 2026 med 300 000 kr skattefritt. Ange kapitalunderlag eller värde per kvartal och se skatten direkt.">
+<link rel="canonical" href="https://sparkalkylatorn.se/isk-skattekalkylator.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a7358">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sv_SE">
+<meta property="og:site_name" content="Räntakalkylatorn">
+<meta property="og:title" content="ISK-skattekalkylator 2026: räkna ut din skatt | Räntakalkylatorn">
+<meta property="og:description" content="Räkna ut din ISK-skatt för 2026 med 300 000 kr skattefritt. Ange kapitalunderlag eller värde per kvartal och se skatten direkt.">
+<meta property="og:url" content="https://sparkalkylatorn.se/isk-skattekalkylator.html">
+<style>
+:root {
+  --bg: #f3f6f4;
+  --surface: #ffffff;
+  --ink: #12262b;
+  --muted: #53666b;
+  --line: #d3dcd9;
+  --accent: #0a7358;
+  --accent-ink: #ffffff;
+  --note: #e7f1ed;
+  --c-deposit: #6f858b;
+  --c-gain: #0a7358;
+  --c-payout: #b9770e;
+  --s1: #b9770e;
+  --s2: #0a7358;
+  --s3: #2a5db8;
+  --focus: #1456c8;
+  --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f191c;
+    --surface: #162328;
+    --ink: #e8efee;
+    --muted: #9db0b4;
+    --line: #2a3c41;
+    --accent: #3fd6a6;
+    --accent-ink: #082018;
+    --note: #1a2e30;
+    --c-deposit: #8aa0a6;
+    --c-gain: #3fd6a6;
+    --c-payout: #e9a93c;
+    --s1: #e9a93c;
+    --s2: #3fd6a6;
+    --s3: #7fb0ff;
+    --focus: #8ab4ff;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 1.0625rem/1.65 var(--sans);
+}
+img, svg, canvas { max-width: 100%; }
+a { color: var(--accent); text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+
+.skip {
+  position: absolute; left: 12px; top: -60px; z-index: 10;
+  background: var(--accent); color: var(--accent-ink); padding: 10px 14px; border-radius: 6px;
+}
+.skip:focus { top: 12px; }
+
+.wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
+
+/* Sidhuvud */
+.site-header { border-bottom: 1px solid var(--line); background: var(--surface); }
+.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; padding-block: 14px; }
+.brand { font: 700 1.25rem/1.2 var(--serif); color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.site-nav ul { display: flex; flex-wrap: wrap; gap: 4px 4px; list-style: none; margin: 0; padding: 0; }
+.site-nav a {
+  display: inline-block; padding: 6px 10px; border-radius: 6px; color: var(--ink);
+  text-decoration: none; font-size: 0.97rem; font-weight: 500;
+}
+.site-nav a:hover { background: var(--note); }
+.site-nav a[aria-current="page"] { background: var(--note); color: var(--accent); font-weight: 700; }
+
+/* Rubriker och text */
+h1, h2, h3 { font-family: var(--serif); line-height: 1.2; letter-spacing: -0.015em; margin: 0 0 0.5em; }
+h1 { font-size: clamp(1.9rem, 4.6vw, 2.8rem); font-weight: 700; }
+h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-top: 2.2em; }
+h3 { font-size: 1.2rem; margin-top: 1.7em; }
+p, ul, ol { margin: 0 0 1.1em; }
+.lede { font-size: 1.2rem; color: var(--muted); max-width: 46rem; }
+.meta { color: var(--muted); font-size: 0.92rem; }
+
+.page-head { padding-block: 40px 8px; }
+.prose { max-width: 44rem; padding-bottom: 40px; }
+.prose li { margin-bottom: 0.4em; }
+.prose code, .formula {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.95em;
+}
+.formula {
+  display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: 14px 16px; margin: 0 0 1.2em; overflow-x: auto; white-space: nowrap;
+}
+.note {
+  background: var(--note); border-left: 4px solid var(--accent); border-radius: 6px;
+  padding: 14px 16px; margin: 0 0 1.2em;
+}
+.note p:last-child { margin-bottom: 0; }
+
+.table-wrap { overflow-x: auto; margin: 0 0 1.3em; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.97rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; }
+thead th { font-weight: 700; background: var(--note); position: sticky; top: 0; }
+tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+caption { text-align: left; padding: 10px 12px; font-weight: 700; }
+
+dl.glossary dt { font-family: var(--serif); font-weight: 700; font-size: 1.15rem; margin-top: 1.4em; }
+dl.glossary dd { margin: 0.2em 0 0; }
+
+.card-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; padding: 0; list-style: none; margin: 0 0 2em; }
+.card-links a {
+  display: block; height: 100%; padding: 18px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; text-decoration: none; color: var(--ink);
+}
+.card-links a:hover { border-color: var(--accent); }
+.card-links strong { display: block; font: 700 1.1rem/1.3 var(--serif); margin-bottom: 4px; color: var(--accent); }
+.card-links span { color: var(--muted); font-size: 0.96rem; }
+
+/* Kalkylator */
+.calc { display: grid; gap: 24px; margin-block: 24px 36px; }
+@media (min-width: 900px) { .calc { grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); align-items: start; } }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+.panel h2 { margin: 0 0 14px; font-size: 1.25rem; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+.field { margin-bottom: 18px; }
+.field label { display: block; font-weight: 600; margin-bottom: 6px; }
+.field .hint { display: block; font-weight: 400; font-size: 0.88rem; color: var(--muted); }
+.field-row { display: flex; align-items: center; gap: 14px; }
+.field-row input[type="range"] { flex: 1; min-width: 0; accent-color: var(--accent); height: 28px; }
+input[type="number"], select {
+  font: inherit; font-weight: 600; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-height: 44px;
+}
+input[type="number"] { width: 9.5rem; text-align: right; }
+select { width: 100%; }
+.check { display: flex; gap: 10px; align-items: center; padding-top: 14px; border-top: 1px solid var(--line); margin-bottom: 18px; }
+.check input { width: 22px; height: 22px; accent-color: var(--accent); }
+.check label { font-weight: 600; margin: 0; }
+
+.results h2 { margin-bottom: 4px; }
+.big { font: 700 clamp(2.1rem, 6vw, 3.1rem)/1.1 var(--serif); letter-spacing: -0.02em; color: var(--accent); margin: 4px 0 16px; font-variant-numeric: tabular-nums; }
+.bar { display: flex; height: 18px; border-radius: 9px; overflow: hidden; background: var(--line); margin-bottom: 10px; }
+.bar span { display: block; height: 100%; min-width: 0; transition: width 0.25s ease; }
+.bar [hidden] { display: none; }
+#segDeposits { background: var(--c-deposit); }
+#segGain { background: var(--c-gain); }
+#segWithdrawn { background: var(--c-payout); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 18px; font-size: 0.93rem; color: var(--muted); }
+.legend li::before {
+  content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px;
+  background: var(--sw, var(--c-deposit));
+}
+.legend [data-sw="gain"]::before { --sw: var(--c-gain); }
+.legend [data-sw="payout"]::before { --sw: var(--c-payout); }
+.legend [hidden] { display: none; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 0; }
+.stats div { border-top: 1px solid var(--line); padding-top: 8px; }
+.stats [hidden] { display: none; }
+.stats dt { font-size: 0.92rem; color: var(--muted); }
+.stats dd { margin: 2px 0 0; font-weight: 700; font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+
+.chart-panel { margin-top: 24px; }
+.chart-box { position: relative; }
+.chart-tip {
+  position: absolute; pointer-events: none; z-index: 2; background: var(--ink); color: var(--bg);
+  padding: 8px 10px; border-radius: 6px; font-size: 0.88rem; line-height: 1.45; white-space: nowrap;
+}
+.chart-box canvas { display: block; touch-action: pan-y; }
+details.table-details { margin-top: 14px; }
+details.table-details summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+details.table-details .table-wrap { max-height: 360px; overflow: auto; margin-top: 8px; }
+
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Sidfot */
+.site-footer { border-top: 1px solid var(--line); background: var(--surface); margin-top: 48px; padding-block: 28px; font-size: 0.95rem; }
+.site-footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 14px; }
+.site-footer p { color: var(--muted); max-width: 50rem; margin-bottom: 0.6em; }
+
+@media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+
+/* Tillägg: nav med fler sidor, verktygskort, sidfot i kolumner */
+[hidden] { display: none !important; }
+.card-links.tools { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.card-links.tools a { padding: 22px; }
+.card-links.tools strong { font-size: 1.3rem; margin-bottom: 6px; }
+.card-links.tools span { font-size: 1rem; }
+.legend [data-sw="s1"]::before { --sw: var(--s1); }
+.legend [data-sw="s2"]::before { --sw: var(--s2); }
+.legend [data-sw="s3"]::before { --sw: var(--s3); }
+.field-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.field-grid .field { margin-bottom: 0; }
+.field-grid input[type="number"] { width: 100%; }
+.field-grid label { font-size: 0.95rem; }
+.scenarios { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 6px 0 18px; }
+.scenarios div { border-top: 4px solid var(--sc, var(--accent)); padding-top: 8px; }
+.scenarios [data-sc="1"] { --sc: var(--s1); }
+.scenarios [data-sc="2"] { --sc: var(--s2); }
+.scenarios [data-sc="3"] { --sc: var(--s3); }
+.scenarios dt { font-size: 0.92rem; color: var(--muted); }
+.scenarios dd { margin: 2px 0 0; font: 700 1.45rem/1.2 var(--serif); font-variant-numeric: tabular-nums; }
+.foot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 22px; margin-bottom: 18px; }
+.foot-grid h2 { font: 700 1rem/1.3 var(--sans); margin: 0 0 8px; letter-spacing: 0; }
+.foot-grid ul { display: block; margin: 0; }
+.foot-grid li { margin-bottom: 4px; }
+.tools-block { margin-top: 8px; }
+
+.calc > *, .panel { min-width: 0; }
+.prose, .panel { overflow-wrap: break-word; }
+.prose a, .site-footer a { overflow-wrap: anywhere; }
+</style>
+<!-- Cookie-samtycke och Google Analytics. Mät-ID fylls i i assets/cookie-consent.js. -->
+<script src="assets/cookie-consent.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#innehall">Hoppa till innehållet</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="index.html">Räntakalkylatorn</a>
+<nav class="site-nav" aria-label="Huvudmeny"><ul>
+<li><a href="index.html">Start</a></li>
+<li><a href="sparkalkylator.html">Sparkalkylator</a></li>
+<li><a href="isk-skattekalkylator.html" aria-current="page">ISK-skatt</a></li>
+<li><a href="sparmalskalkylator.html">Sparmål</a></li>
+<li><a href="tillvaxtkalkylator.html">Tillväxt</a></li>
+<li><a href="sparkonto.html">Sparränta</a></li>
+<li><a href="bolan.html">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="guider.html">Guider</a></li>
+<li><a href="om-oss.html">Om oss</a></li>
+</ul></nav>
+</div>
+</header>
+<main id="innehall">
+<div class="wrap page-head">
+<h1>ISK-skattekalkylator för 2026</h1>
+<p class="lede">Räkna ut din schablonskatt på investeringssparkonto. Kalkylatorn använder reglerna för beskattningsåret 2026, med 300 000 kr skattefritt.</p>
+<p class="meta">Senast uppdaterad 10 oktober 2026. Kontrollera aktuella regler hos Skatteverket.</p>
+</div><div class="wrap calc">
+<form class="panel" id="calcForm" autocomplete="off" novalidate>
+<h2>Dina uppgifter</h2>
+<fieldset>
+<legend class="visually-hidden">Underlag för ISK-skatten</legend>
+<div class="field">
+<label for="mode">Så anger du underlaget<span class="hint">Kapitalunderlaget är en fjärdedel av summan av kontots värde vid kvartalens början plus insättningar</span></label>
+<select id="mode">
+<option value="direct" selected>Jag anger ett kapitalunderlag</option>
+<option value="quarters">Jag anger kontots värde per kvartal</option>
+</select>
+</div>
+<div id="directGroup">
+<div class="field">
+<label for="directInput">Kapitalunderlag (kr)<span class="hint">Alla dina ISK och kapitalförsäkringar tillsammans</span></label>
+<div class="field-row"><input type="range" id="directRange" min="0" max="5000000" step="10000" value="500000" aria-label="Kapitalunderlag (kr), reglage"><input type="number" id="directInput" min="0" max="200000000" step="1000" value="500000" inputmode="decimal"></div>
+</div>
+</div>
+<div id="quartersGroup" hidden>
+<div class="field">
+<label for="q1Input">Värde 1 januari (kr)</label>
+<div class="field-row"><input type="number" id="q1Input" min="0" max="200000000" step="1000" value="400000" inputmode="decimal"></div>
+</div>
+<div class="field">
+<label for="q2Input">Värde 1 april (kr)</label>
+<div class="field-row"><input type="number" id="q2Input" min="0" max="200000000" step="1000" value="420000" inputmode="decimal"></div>
+</div>
+<div class="field">
+<label for="q3Input">Värde 1 juli (kr)</label>
+<div class="field-row"><input type="number" id="q3Input" min="0" max="200000000" step="1000" value="440000" inputmode="decimal"></div>
+</div>
+<div class="field">
+<label for="q4Input">Värde 1 oktober (kr)</label>
+<div class="field-row"><input type="number" id="q4Input" min="0" max="200000000" step="1000" value="460000" inputmode="decimal"></div>
+</div>
+<div class="field">
+<label for="depositsInput">Insättningar under året (kr)<span class="hint">Summan av alla insättningar</span></label>
+<div class="field-row"><input type="number" id="depositsInput" min="0" max="200000000" step="1000" value="36000" inputmode="decimal"></div>
+</div>
+</div>
+<div class="field">
+<label for="floorInput">Skattefri grundnivå (kr)<span class="hint">300 000 kr för 2026. Gäller per person, sammanlagt för alla dina konton</span></label>
+<div class="field-row"><input type="number" id="floorInput" min="0" max="10000000" step="1000" value="300000" inputmode="decimal"></div>
+</div>
+<div class="field">
+<label for="rateInput">Schablonränta (% av underlaget)<span class="hint">3,55 % för 2026. Aldrig lägre än 1,25 %</span></label>
+<div class="field-row"><input type="number" id="rateInput" min="1.25" max="10" step="0.01" value="3.55" inputmode="decimal"></div>
+</div>
+</fieldset>
+</form>
+
+<div>
+<section class="panel results" aria-labelledby="res-h">
+<h2 id="res-h">Resultat</h2>
+<p class="meta">Beräknad ISK-skatt per år</p>
+<p class="big" id="resTax">0 kr</p>
+<dl class="stats">
+<div><dt>Kapitalunderlag</dt><dd id="resBase">0 kr</dd></div>
+<div><dt>Över skattefri grundnivå</dt><dd id="resOver">0 kr</dd></div>
+<div><dt>Schablonintäkt</dt><dd id="resIncome">0 kr</dd></div>
+<div><dt>Skatt per månad</dt><dd id="resMonth">0 kr</dd></div>
+<div><dt>Skatt i procent av kapitalunderlaget</dt><dd id="resEff">–</dd></div>
+</dl>
+<p id="liveSummary" class="visually-hidden" role="status" aria-live="polite"></p>
+</section>
+
+<section class="panel chart-panel" aria-labelledby="lv-h">
+<h2 id="lv-h">Skatt vid olika belopp</h2>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Kapitalunderlag (kr)</th><th scope="col">Skatt per år (kr)</th><th scope="col">Skatt i % av underlaget</th></tr></thead>
+<tbody id="levelsBody"></tbody>
+</table></div>
+<p class="meta">Tabellen använder samma skattefria grundnivå och schablonränta som du har valt.</p>
+</section>
+</div>
+</div><div class="wrap"><div class="prose">
+<h2>Så räknas skatten ut</h2>
+<ol>
+<li><strong>Kapitalunderlaget</strong> är en fjärdedel av summan av kontots värde vid början av varje kvartal (1 januari, 1 april, 1 juli och 1 oktober) plus alla insättningar under året.</li>
+<li><strong>Skattefri grundnivå.</strong> Från och med 2026 är de första 300 000 kr skattefria. Gränsen gäller per person och räknas sammanlagt över alla dina ISK och kapitalförsäkringar.</li>
+<li><strong>Schablonintäkten</strong> är underlaget över grundnivån gånger schablonräntan. Schablonräntan är statslåneräntan den 30 november året före plus en procentenhet, men aldrig lägre än 1,25 %. För 2026 är den 3,55 %.</li>
+<li><strong>Skatten</strong> är 30 % av schablonintäkten. För 2026 blir det 1,065 % av underlaget över 300 000 kr.</li>
+</ol>
+<p>En längre förklaring med fler exempel finns i guiden <a href="isk-och-schablonskatt.html">ISK och schablonskatt</a>.</p>
+
+<h2>Exempel</h2>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Kapitalunderlag</th><th scope="col">Skatt för 2026</th></tr></thead>
+<tbody>
+<tr><th scope="row">300 000 kr</th><td>0 kr</td></tr>
+<tr><th scope="row">500 000 kr</th><td>2 130 kr</td></tr>
+<tr><th scope="row">1 000 000 kr</th><td>7 455 kr</td></tr>
+<tr><th scope="row">2 000 000 kr</th><td>18 105 kr</td></tr>
+</tbody></table></div>
+<p>Med ett kapitalunderlag på 1 000 000 kr är skatten alltså 700 000 × 1,065 % = 7 455 kr. Det motsvarar 0,75 % av kontots värde per år.</p>
+
+<h2>Bra att veta</h2>
+<ul>
+<li><strong>Skatten beror inte på avkastningen.</strong> Du betalar lika mycket om kontot har gått upp, ner eller stått still.</li>
+<li><strong>Insättningar höjer underlaget.</strong> En stor insättning tidigt på året räknas som insättning och ökar kapitalunderlaget mer än en insättning sent på året.</li>
+<li><strong>Flera konton räknas ihop.</strong> Den skattefria grundnivån är en gemensam gräns för alla dina ISK och kapitalförsäkringar, inte en gräns per konto.</li>
+<li><strong>Siffrorna gäller 2026.</strong> Schablonräntan räknas om varje år, så skatten kommande år kan bli högre eller lägre. Kontrollera alltid aktuella uppgifter hos Skatteverket.</li>
+</ul>
+
+<h2>Vanliga frågor</h2>
+<h3>Hur mycket skatt betalar jag på 1 miljon i ISK?</h3>
+<p>Med reglerna för 2026 och ett kapitalunderlag på 1 000 000 kr blir skatten 7 455 kr per år, förutsatt att du inte har andra ISK eller kapitalförsäkringar som använder den skattefria grundnivån.</p>
+<h3>Gäller de 300 000 kr per konto eller per person?</h3>
+<p>Per person. Har du flera konton delar de på samma skattefria belopp. Ange därför det sammanlagda kapitalunderlaget för alla konton i kalkylatorn.</p>
+<h3>Måste jag betala skatt om jag går med förlust?</h3>
+<p>Ja, om kapitalunderlaget är över den skattefria nivån. ISK beskattas med en schablon som inte tar hänsyn till kontots utveckling, och förluster ger inget avdrag.</p>
+<h3>Varför får jag ett annat belopp av min bank?</h3>
+<p>Skillnaden beror oftast på kapitalunderlaget. Kontrollera värdet vid varje kvartal och alla insättningar under året, och kom ihåg att banken räknar på just ditt konto. Andra konton kan påverka hur den skattefria nivån fördelas.</p>
+<h3>Hur betalas skatten?</h3>
+<p>Banken eller mäklaren rapporterar uppgifterna till Skatteverket, och skatten kommer med i din slutliga skatt när du deklarerar.</p>
+</div></div><div class="wrap tools-block"><h2>Läs mer om ISK</h2>
+<ul class="card-links">
+<li><a href="isk-forklarad.html"><strong>ISK förklarad</strong><span>Vad ett investeringssparkonto är, hur det skiljer sig från andra konton och när det passar.</span></a></li>
+<li><a href="isk-och-schablonskatt.html"><strong>ISK och schablonskatt 2026</strong><span>Så räknar du ut skatten, med exempel.</span></a></li>
+</ul>
+</div><div class="wrap tools-block"><h2>Fler kalkylatorer</h2>
+<ul class="card-links">
+<li><a href="sparkalkylator.html"><strong>Räkna ditt sparande</strong><span>Se hur startkapital, månadssparande och utdelningar växer med ränta på ränta.</span></a></li>
+<li><a href="sparmalskalkylator.html"><strong>Spara till ett mål</strong><span>Hur mycket behöver du lägga undan varje månad för att nå till exempel 500 000 kr?</span></a></li>
+<li><a href="tillvaxtkalkylator.html"><strong>Jämför avkastning</strong><span>Se vad ett engångsbelopp blir värt vid olika avkastning och avgifter.</span></a></li>
+</ul>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="foot-grid">
+<div><h2>Kalkylatorer</h2><ul>
+<li><a href="sparkalkylator.html">Räkna ditt sparande</a></li>
+<li><a href="isk-skattekalkylator.html">Förstå ISK-skatten</a></li>
+<li><a href="sparmalskalkylator.html">Spara till ett mål</a></li>
+<li><a href="tillvaxtkalkylator.html">Jämför avkastning</a></li>
+</ul></div>
+<div><h2>Guider</h2><ul>
+<li><a href="isk-forklarad.html">ISK förklarad</a></li>
+<li><a href="ranta-pa-ranta.html">Ränta på ränta</a></li>
+<li><a href="utdelning-eller-kursutveckling.html">Utdelning eller kursutveckling</a></li>
+<li><a href="isk-och-schablonskatt.html">ISK och schablonskatt 2026</a></li>
+<li><a href="sparkonto.html">Sparränta och sparkonton</a></li>
+<li><a href="bolan.html">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="ordlista.html">Ordlista</a></li>
+</ul></div>
+<div><h2>Om webbplatsen</h2><ul>
+<li><a href="om-oss.html">Om webbplatsen</a></li>
+<li><a href="metod.html">Så räknar kalkylatorerna</a></li>
+<li><a href="kontakt.html">Kontakt</a></li>
+<li><a href="integritetspolicy.html">Integritetspolicy</a></li>
+<li><a href="friskrivning.html">Friskrivning och villkor</a></li>
+<li><button type="button" class="cc-link" data-cookie-settings>Cookieinställningar</button></li>
+</ul></div>
+</div>
+<p>Innehållet på Räntakalkylatorn är allmän information och exempel. Det är inte investeringsrådgivning, skatterådgivning eller en uppmaning att köpa eller sälja något. Historisk avkastning är ingen garanti för framtida avkastning, och du kan förlora pengar när du sparar i aktier och fonder.</p>
+<p>Senast uppdaterad 11 oktober 2026. &copy; 2026 TP.</p>
+</div>
+</footer>
+<script>
+/* Gemensamma hjälpfunktioner för alla kalkylatorer. Inga externa bibliotek. */
+(function (root) {
+  'use strict';
+  if (typeof document === 'undefined') { return; }
+
+  var nf = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 0 });
+  var pf = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 2 });
+
+  function $(id) { return document.getElementById(id); }
+  function kr(n) { return nf.format(Math.round(n)) + '\u00a0kr'; }
+  function num(n) { return nf.format(Math.round(n)); }
+  function pct(n) { return pf.format(n) + '\u00a0%'; }
+  function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
+  function compact(v) {
+    if (v >= 1e6) { return (v / 1e6).toLocaleString('sv-SE', { maximumFractionDigits: 1 }) + '\u00a0mn'; }
+    if (v >= 1e3) { return (v / 1e3).toLocaleString('sv-SE', { maximumFractionDigits: 0 }) + '\u00a0tkr'; }
+    return String(Math.round(v));
+  }
+
+  /* Läser ett fält (id + 'Input'), tomt eller ogiltigt värde blir 0 och allt hålls inom min/max. */
+  function readField(id) {
+    var el = $(id + 'Input');
+    var min = parseFloat(el.min), max = parseFloat(el.max);
+    var v = el.valueAsNumber;
+    if (isNaN(v)) { v = 0; }
+    if (!isNaN(min)) { v = Math.max(min, v); }
+    if (!isNaN(max)) { v = Math.min(max, v); }
+    return v;
+  }
+
+  /* Kopplar fält (och eventuella reglage) till en uppdateringsfunktion. */
+  function bindFields(names, update) {
+    names.forEach(function (name) {
+      var input = $(name + 'Input');
+      var range = $(name + 'Range');
+      if (range) {
+        range.addEventListener('input', function () { input.value = range.value; update(); });
+        input.addEventListener('input', function () {
+          if (!isNaN(input.valueAsNumber)) { range.value = input.value; }
+          update();
+        });
+      } else {
+        input.addEventListener('input', update);
+      }
+      // När fältet lämnas rättas ogiltiga värden till närmaste tillåtna värde.
+      input.addEventListener('change', function () {
+        input.value = String(readField(name));
+        if (range) { range.value = input.value; }
+        update();
+      });
+    });
+    var form = document.querySelector('form');
+    if (form) { form.addEventListener('submit', function (e) { e.preventDefault(); }); }
+  }
+
+  function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+  function niceMax(v) {
+    // Väljer ett jämnt tickavstånd så att fyra intervall ger runda axelvärden.
+    if (v <= 0) { return 4; }
+    var raw = v / 4;
+    var pow = Math.pow(10, Math.floor(Math.log10(raw)));
+    var n = raw / pow;
+    var step = n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10;
+    return step * pow * 4;
+  }
+
+  /* Linjediagram på canvas. render({ series: [{ values, color (CSS-variabel), width, dash, fill }], tipHtml(i) }) */
+  function createChart(canvas, tip) {
+    var ctx = canvas.getContext('2d');
+    var data = null, hover = -1, geo = null;
+
+    function draw() {
+      if (!data) { return; }
+      var wrap = canvas.parentElement;
+      var w = wrap.clientWidth;
+      var h = w < 520 ? 280 : 360;
+      var dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      var colMuted = cssVar('--muted'), colLine = cssVar('--line');
+      var pad = { l: w < 520 ? 52 : 64, r: 14, t: 14, b: 30 };
+      var pw = w - pad.l - pad.r, ph = h - pad.t - pad.b;
+      var n = data.series[0].values.length - 1;
+      var maxV = 0;
+      data.series.forEach(function (s) { s.values.forEach(function (v) { maxV = Math.max(maxV, v); }); });
+      var top = niceMax(maxV);
+      var X = function (i) { return pad.l + (n === 0 ? 0 : pw * i / n); };
+      var Y = function (v) { return pad.t + ph - ph * v / top; };
+
+      ctx.font = '12px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = colLine;
+      ctx.fillStyle = colMuted;
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'right';
+      for (var t = 0; t <= 4; t++) {
+        var val = top * t / 4, y = Math.round(Y(val)) + 0.5;
+        ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.stroke();
+        ctx.fillText(compact(val), pad.l - 8, y);
+      }
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      var stepX = Math.max(1, Math.ceil(n / (w < 520 ? 5 : 8)));
+      for (var i = 0; i <= n; i += stepX) { ctx.fillText(String(i), X(i), h - pad.b + 8); }
+
+      data.series.forEach(function (s) {
+        var color = cssVar(s.color);
+        var trace = function () {
+          ctx.beginPath();
+          s.values.forEach(function (v, idx) {
+            if (idx === 0) { ctx.moveTo(X(idx), Y(v)); } else { ctx.lineTo(X(idx), Y(v)); }
+          });
+        };
+        if (s.fill) {
+          trace();
+          ctx.lineTo(X(n), Y(0)); ctx.lineTo(X(0), Y(0)); ctx.closePath();
+          ctx.save(); ctx.globalAlpha = 0.14; ctx.fillStyle = color; ctx.fill(); ctx.restore();
+        }
+        trace();
+        ctx.setLineDash(s.dash || []);
+        ctx.lineWidth = s.width || 2;
+        ctx.strokeStyle = color;
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+        ctx.setLineDash([]);
+      });
+
+      if (hover >= 0 && hover <= n) {
+        var hx = X(hover);
+        ctx.strokeStyle = colMuted; ctx.lineWidth = 1; ctx.globalAlpha = 0.6;
+        ctx.beginPath(); ctx.moveTo(hx, pad.t); ctx.lineTo(hx, pad.t + ph); ctx.stroke();
+        ctx.globalAlpha = 1;
+        data.series.forEach(function (s) {
+          ctx.beginPath(); ctx.arc(hx, Y(s.values[hover]), 4, 0, Math.PI * 2);
+          ctx.fillStyle = cssVar(s.color); ctx.fill();
+        });
+      }
+      geo = { pad: pad, pw: pw, n: n, w: w };
+    }
+
+    function showTip(clientX) {
+      if (!data || !geo) { return; }
+      var rect = canvas.getBoundingClientRect();
+      var ratio = (clientX - rect.left - geo.pad.l) / geo.pw;
+      hover = clamp(Math.round(ratio * geo.n), 0, geo.n);
+      tip.innerHTML = data.tipHtml(hover);
+      tip.hidden = false;
+      var px = geo.pad.l + (geo.n === 0 ? 0 : geo.pw * hover / geo.n);
+      tip.style.left = clamp(px + 12, 4, geo.w - tip.offsetWidth - 4) + 'px';
+      tip.style.top = '12px';
+      draw();
+    }
+    function hideTip() { hover = -1; tip.hidden = true; draw(); }
+
+    canvas.addEventListener('pointermove', function (e) { showTip(e.clientX); });
+    canvas.addEventListener('pointerdown', function (e) { showTip(e.clientX); });
+    canvas.addEventListener('pointerleave', hideTip);
+    if (window.ResizeObserver) { new ResizeObserver(draw).observe(canvas.parentElement); }
+    else { window.addEventListener('resize', draw); }
+    if (window.matchMedia) {
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      if (mq.addEventListener) { mq.addEventListener('change', draw); }
+    }
+
+    return {
+      render: function (d) { data = d; hover = -1; tip.hidden = true; draw(); }
+    };
+  }
+
+  root.SK = { $: $, kr: kr, num: num, pct: pct, clamp: clamp, compact: compact,
+    readField: readField, bindFields: bindFields, createChart: createChart };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+/* ISK-skattekalkylator för beskattningsåret 2026. Kräver lib.js. */
+(function (root) {
+  'use strict';
+  var TAX = 0.30; // skatt på schablonintäkten
+
+  function iskTax(p) {
+    var over = Math.max(0, p.base - p.floor);
+    var income = over * p.rate / 100;
+    return { base: p.base, over: over, income: income, tax: income * TAX };
+  }
+  function baseFromQuarters(q) { return (q.q1 + q.q2 + q.q3 + q.q4 + q.deposits) / 4; }
+
+  if (typeof module !== 'undefined' && module.exports) { module.exports = { iskTax: iskTax, baseFromQuarters: baseFromQuarters }; }
+  if (typeof document === 'undefined') { return; }
+
+  var SK = root.SK, $ = SK.$, kr = SK.kr;
+  var names = ['direct', 'q1', 'q2', 'q3', 'q4', 'deposits', 'floor', 'rate'];
+  var LEVELS = [100000, 300000, 500000, 1000000, 2000000, 5000000];
+  var summaryTimer = null;
+
+  function currentBase() {
+    if ($('mode').value === 'quarters') {
+      return baseFromQuarters({ q1: SK.readField('q1'), q2: SK.readField('q2'), q3: SK.readField('q3'),
+        q4: SK.readField('q4'), deposits: SK.readField('deposits') });
+    }
+    return SK.readField('direct');
+  }
+
+  function update() {
+    var quarters = $('mode').value === 'quarters';
+    $('directGroup').hidden = quarters;
+    $('quartersGroup').hidden = !quarters;
+
+    var floor = SK.readField('floor'), rate = SK.readField('rate');
+    var r = iskTax({ base: currentBase(), floor: floor, rate: rate });
+
+    $('resTax').textContent = kr(r.tax);
+    $('resBase').textContent = kr(r.base);
+    $('resOver').textContent = kr(r.over);
+    $('resIncome').textContent = kr(r.income);
+    $('resMonth').textContent = kr(r.tax / 12);
+    $('resEff').textContent = r.base > 0 ? SK.pct(100 * r.tax / r.base) : '–';
+
+    var html = '';
+    LEVELS.forEach(function (u) {
+      var x = iskTax({ base: u, floor: floor, rate: rate });
+      html += '<tr><th scope="row">' + SK.num(u) + '</th><td>' + SK.num(x.tax) + '</td><td>' + SK.pct(100 * x.tax / u) + '</td></tr>';
+    });
+    $('levelsBody').innerHTML = html;
+
+    clearTimeout(summaryTimer);
+    summaryTimer = setTimeout(function () {
+      $('liveSummary').textContent = 'Beräknad ISK-skatt är ' + kr(r.tax) + ' per år på ett kapitalunderlag på ' + kr(r.base) + '.';
+    }, 500);
+  }
+
+  SK.bindFields(names, update);
+  $('mode').addEventListener('change', update);
+  update();
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+</body>
+</html>

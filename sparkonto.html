@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sparränta och sparkonton: så fungerar räntan | Räntakalkylatorn</title>
+<meta name="description" content="Så fungerar sparränta och sparkonton: rörlig och fast ränta, skatt på räntan, insättningsgaranti och hur du jämför banker. Med räknare.">
+<link rel="canonical" href="https://sparkalkylatorn.se/sparkonto.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a7358">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sv_SE">
+<meta property="og:site_name" content="Räntakalkylatorn">
+<meta property="og:title" content="Sparränta och sparkonton: så fungerar räntan | Räntakalkylatorn">
+<meta property="og:description" content="Så fungerar sparränta och sparkonton: rörlig och fast ränta, skatt på räntan, insättningsgaranti och hur du jämför banker. Med räknare.">
+<meta property="og:url" content="https://sparkalkylatorn.se/sparkonto.html">
+<style>
+:root {
+  --bg: #f3f6f4;
+  --surface: #ffffff;
+  --ink: #12262b;
+  --muted: #53666b;
+  --line: #d3dcd9;
+  --accent: #0a7358;
+  --accent-ink: #ffffff;
+  --note: #e7f1ed;
+  --c-deposit: #6f858b;
+  --c-gain: #0a7358;
+  --c-payout: #b9770e;
+  --s1: #b9770e;
+  --s2: #0a7358;
+  --s3: #2a5db8;
+  --focus: #1456c8;
+  --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f191c;
+    --surface: #162328;
+    --ink: #e8efee;
+    --muted: #9db0b4;
+    --line: #2a3c41;
+    --accent: #3fd6a6;
+    --accent-ink: #082018;
+    --note: #1a2e30;
+    --c-deposit: #8aa0a6;
+    --c-gain: #3fd6a6;
+    --c-payout: #e9a93c;
+    --s1: #e9a93c;
+    --s2: #3fd6a6;
+    --s3: #7fb0ff;
+    --focus: #8ab4ff;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 1.0625rem/1.65 var(--sans);
+}
+img, svg, canvas { max-width: 100%; }
+a { color: var(--accent); text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+
+.skip {
+  position: absolute; left: 12px; top: -60px; z-index: 10;
+  background: var(--accent); color: var(--accent-ink); padding: 10px 14px; border-radius: 6px;
+}
+.skip:focus { top: 12px; }
+
+.wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
+
+/* Sidhuvud */
+.site-header { border-bottom: 1px solid var(--line); background: var(--surface); }
+.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; padding-block: 14px; }
+.brand { font: 700 1.25rem/1.2 var(--serif); color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.site-nav ul { display: flex; flex-wrap: wrap; gap: 4px 4px; list-style: none; margin: 0; padding: 0; }
+.site-nav a {
+  display: inline-block; padding: 6px 10px; border-radius: 6px; color: var(--ink);
+  text-decoration: none; font-size: 0.97rem; font-weight: 500;
+}
+.site-nav a:hover { background: var(--note); }
+.site-nav a[aria-current="page"] { background: var(--note); color: var(--accent); font-weight: 700; }
+
+/* Rubriker och text */
+h1, h2, h3 { font-family: var(--serif); line-height: 1.2; letter-spacing: -0.015em; margin: 0 0 0.5em; }
+h1 { font-size: clamp(1.9rem, 4.6vw, 2.8rem); font-weight: 700; }
+h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-top: 2.2em; }
+h3 { font-size: 1.2rem; margin-top: 1.7em; }
+p, ul, ol { margin: 0 0 1.1em; }
+.lede { font-size: 1.2rem; color: var(--muted); max-width: 46rem; }
+.meta { color: var(--muted); font-size: 0.92rem; }
+
+.page-head { padding-block: 40px 8px; }
+.prose { max-width: 44rem; padding-bottom: 40px; }
+.prose li { margin-bottom: 0.4em; }
+.prose code, .formula {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.95em;
+}
+.formula {
+  display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: 14px 16px; margin: 0 0 1.2em; overflow-x: auto; white-space: nowrap;
+}
+.note {
+  background: var(--note); border-left: 4px solid var(--accent); border-radius: 6px;
+  padding: 14px 16px; margin: 0 0 1.2em;
+}
+.note p:last-child { margin-bottom: 0; }
+
+.table-wrap { overflow-x: auto; margin: 0 0 1.3em; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.97rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; }
+thead th { font-weight: 700; background: var(--note); position: sticky; top: 0; }
+tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+caption { text-align: left; padding: 10px 12px; font-weight: 700; }
+
+dl.glossary dt { font-family: var(--serif); font-weight: 700; font-size: 1.15rem; margin-top: 1.4em; }
+dl.glossary dd { margin: 0.2em 0 0; }
+
+.card-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; padding: 0; list-style: none; margin: 0 0 2em; }
+.card-links a {
+  display: block; height: 100%; padding: 18px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; text-decoration: none; color: var(--ink);
+}
+.card-links a:hover { border-color: var(--accent); }
+.card-links strong { display: block; font: 700 1.1rem/1.3 var(--serif); margin-bottom: 4px; color: var(--accent); }
+.card-links span { color: var(--muted); font-size: 0.96rem; }
+
+/* Kalkylator */
+.calc { display: grid; gap: 24px; margin-block: 24px 36px; }
+@media (min-width: 900px) { .calc { grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); align-items: start; } }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+.panel h2 { margin: 0 0 14px; font-size: 1.25rem; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+.field { margin-bottom: 18px; }
+.field label { display: block; font-weight: 600; margin-bottom: 6px; }
+.field .hint { display: block; font-weight: 400; font-size: 0.88rem; color: var(--muted); }
+.field-row { display: flex; align-items: center; gap: 14px; }
+.field-row input[type="range"] { flex: 1; min-width: 0; accent-color: var(--accent); height: 28px; }
+input[type="number"], select {
+  font: inherit; font-weight: 600; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-height: 44px;
+}
+input[type="number"] { width: 9.5rem; text-align: right; }
+select { width: 100%; }
+.check { display: flex; gap: 10px; align-items: center; padding-top: 14px; border-top: 1px solid var(--line); margin-bottom: 18px; }
+.check input { width: 22px; height: 22px; accent-color: var(--accent); }
+.check label { font-weight: 600; margin: 0; }
+
+.results h2 { margin-bottom: 4px; }
+.big { font: 700 clamp(2.1rem, 6vw, 3.1rem)/1.1 var(--serif); letter-spacing: -0.02em; color: var(--accent); margin: 4px 0 16px; font-variant-numeric: tabular-nums; }
+.bar { display: flex; height: 18px; border-radius: 9px; overflow: hidden; background: var(--line); margin-bottom: 10px; }
+.bar span { display: block; height: 100%; min-width: 0; transition: width 0.25s ease; }
+.bar [hidden] { display: none; }
+#segDeposits { background: var(--c-deposit); }
+#segGain { background: var(--c-gain); }
+#segWithdrawn { background: var(--c-payout); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 18px; font-size: 0.93rem; color: var(--muted); }
+.legend li::before {
+  content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px;
+  background: var(--sw, var(--c-deposit));
+}
+.legend [data-sw="gain"]::before { --sw: var(--c-gain); }
+.legend [data-sw="payout"]::before { --sw: var(--c-payout); }
+.legend [hidden] { display: none; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 0; }
+.stats div { border-top: 1px solid var(--line); padding-top: 8px; }
+.stats [hidden] { display: none; }
+.stats dt { font-size: 0.92rem; color: var(--muted); }
+.stats dd { margin: 2px 0 0; font-weight: 700; font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+
+.chart-panel { margin-top: 24px; }
+.chart-box { position: relative; }
+.chart-tip {
+  position: absolute; pointer-events: none; z-index: 2; background: var(--ink); color: var(--bg);
+  padding: 8px 10px; border-radius: 6px; font-size: 0.88rem; line-height: 1.45; white-space: nowrap;
+}
+.chart-box canvas { display: block; touch-action: pan-y; }
+details.table-details { margin-top: 14px; }
+details.table-details summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+details.table-details .table-wrap { max-height: 360px; overflow: auto; margin-top: 8px; }
+
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Sidfot */
+.site-footer { border-top: 1px solid var(--line); background: var(--surface); margin-top: 48px; padding-block: 28px; font-size: 0.95rem; }
+.site-footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 14px; }
+.site-footer p { color: var(--muted); max-width: 50rem; margin-bottom: 0.6em; }
+
+@media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+
+/* Tillägg: nav med fler sidor, verktygskort, sidfot i kolumner */
+[hidden] { display: none !important; }
+.card-links.tools { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.card-links.tools a { padding: 22px; }
+.card-links.tools strong { font-size: 1.3rem; margin-bottom: 6px; }
+.card-links.tools span { font-size: 1rem; }
+.legend [data-sw="s1"]::before { --sw: var(--s1); }
+.legend [data-sw="s2"]::before { --sw: var(--s2); }
+.legend [data-sw="s3"]::before { --sw: var(--s3); }
+.field-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.field-grid .field { margin-bottom: 0; }
+.field-grid input[type="number"] { width: 100%; }
+.field-grid label { font-size: 0.95rem; }
+.scenarios { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 6px 0 18px; }
+.scenarios div { border-top: 4px solid var(--sc, var(--accent)); padding-top: 8px; }
+.scenarios [data-sc="1"] { --sc: var(--s1); }
+.scenarios [data-sc="2"] { --sc: var(--s2); }
+.scenarios [data-sc="3"] { --sc: var(--s3); }
+.scenarios dt { font-size: 0.92rem; color: var(--muted); }
+.scenarios dd { margin: 2px 0 0; font: 700 1.45rem/1.2 var(--serif); font-variant-numeric: tabular-nums; }
+.foot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 22px; margin-bottom: 18px; }
+.foot-grid h2 { font: 700 1rem/1.3 var(--sans); margin: 0 0 8px; letter-spacing: 0; }
+.foot-grid ul { display: block; margin: 0; }
+.foot-grid li { margin-bottom: 4px; }
+.tools-block { margin-top: 8px; }
+
+.calc > *, .panel { min-width: 0; }
+.prose, .panel { overflow-wrap: break-word; }
+.prose a, .site-footer a { overflow-wrap: anywhere; }
+
+/* Tillägg för sidorna om sparränta och bolån */
+.text-table th, .text-table td { text-align: left; vertical-align: top; font-variant-numeric: normal; }
+.text-table tbody th { font-weight: 700; }
+</style>
+<!-- Cookie-samtycke och Google Analytics. Mät-ID fylls i i assets/cookie-consent.js. -->
+<script src="assets/cookie-consent.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#innehall">Hoppa till innehållet</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="index.html">Räntakalkylatorn</a>
+<nav class="site-nav" aria-label="Huvudmeny"><ul>
+<li><a href="index.html">Start</a></li>
+<li><a href="sparkalkylator.html">Sparkalkylator</a></li>
+<li><a href="isk-skattekalkylator.html">ISK-skatt</a></li>
+<li><a href="sparmalskalkylator.html">Sparmål</a></li>
+<li><a href="tillvaxtkalkylator.html">Tillväxt</a></li>
+<li><a href="sparkonto.html" aria-current="page">Sparränta</a></li>
+<li><a href="bolan.html">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="guider.html">Guider</a></li>
+<li><a href="om-oss.html">Om oss</a></li>
+</ul></nav>
+</div>
+</header>
+<main id="innehall">
+<div class="wrap page-head">
+<h1>Sparränta och sparkonton</h1>
+<p class="lede">Ett sparkonto är det enklaste sättet att få ränta på pengar du inte behöver just nu. Här går vi igenom hur sparräntan fungerar, hur den beskattas och vad du ska titta på när du jämför banker.</p>
+<p class="meta">Senast uppdaterad 11 oktober 2026. Illustration, inte rådgivning.</p>
+</div><div class="wrap calc">
+<form class="panel" id="calcForm" autocomplete="off" novalidate>
+<h2>Din sparränta</h2>
+<fieldset>
+<legend class="visually-hidden">Inställningar för sparkontot</legend>
+<div class="field">
+<label for="amountInput">Belopp på kontot (kr)</label>
+<div class="field-row"><input type="number" id="amountInput" min="0" max="1000000000" step="1000" value="100000" inputmode="decimal"></div>
+</div>
+<div class="field">
+<label for="rateInput">Ränta (% per år)<span class="hint">Räntan före skatt</span></label>
+<div class="field-row"><input type="number" id="rateInput" min="0" max="100" step="0.1" value="2.5" inputmode="decimal"></div>
+</div>
+<div class="field">
+<label for="yearsInput">Antal år</label>
+<div class="field-row"><input type="number" id="yearsInput" min="1" max="60" step="1" value="5" inputmode="numeric"></div>
+</div>
+<div class="check"><input type="checkbox" id="compoundInput" checked><label for="compoundInput">Räntan står kvar på kontot (ränta på ränta)</label></div>
+</fieldset>
+</form>
+
+<div>
+<section class="panel results" aria-labelledby="res-h">
+<h2 id="res-h">Resultat</h2>
+<p class="meta" id="resLabel"></p>
+<p class="big" id="resBalance">–</p>
+<dl class="stats">
+<div><dt>Ränta före skatt</dt><dd id="resGross">–</dd></div>
+<div><dt>Skatt på räntan (30&nbsp;procent)</dt><dd id="resTax">–</dd></div>
+<div><dt>Ränta efter skatt</dt><dd id="resNet">–</dd></div>
+</dl>
+<p class="meta" id="resMsg" role="status" aria-live="polite"></p>
+<p class="meta">Förenklad beräkning med fast ränta, utan insättningar och uttag, där skatten dras varje år. Se <a href="metod.html">Så räknar kalkylatorerna</a>.</p>
+</section>
+</div>
+</div><div class="wrap"><div class="prose">
+
+<h2>Så fungerar ett sparkonto</h2>
+<p>Du sätter in pengar hos en bank och banken betalar ränta på dem. Räntan anges i procent per år. Med 2,5&nbsp;procent på 100&nbsp;000&nbsp;kronor blir räntan 2&nbsp;500&nbsp;kronor under ett år, före skatt.</p>
+<p>Hur ofta räntan läggs till kontot skiljer sig mellan banker. När räntan läggs till kapitalet får du ränta på ränta nästa period. Den effekten kan du räkna på i <a href="sparkalkylator.html">sparkalkylatorn</a> och läsa om i guiden <a href="ranta-pa-ranta.html">Ränta på ränta</a>.</p>
+
+<h2>Rörlig ränta, fast ränta och kampanjränta</h2>
+<div class="table-wrap"><table class="text-table">
+<caption>Tre vanliga räntetyper på sparkonton</caption>
+<thead><tr><th scope="col">Typ</th><th scope="col">Så fungerar den</th><th scope="col">Tänk på</th></tr></thead>
+<tbody>
+<tr><th scope="row">Rörlig ränta</th><td>Banken kan ändra räntan när som helst. Den följer ofta marknadsräntorna och Riksbankens styrränta, men varje bank bestämmer själv.</td><td>Räntan du får i dag är inte säkert den du har om ett halvår.</td></tr>
+<tr><th scope="row">Fast ränta</th><td>Räntan ligger fast under en bestämd period, till exempel ett eller flera år. Det kallas ofta fasträntekonto.</td><td>Pengarna är normalt bundna. Villkoren för uttag i förtid skiljer sig mellan banker.</td></tr>
+<tr><th scope="row">Kampanjränta</th><td>En högre ränta under en begränsad tid, ofta för nya kunder.</td><td>Kolla vilken ränta som gäller när kampanjen är slut.</td></tr>
+</tbody>
+</table></div>
+
+<h2>Fria uttag eller bundna pengar</h2>
+<p>På ett konto med fria uttag kommer du åt pengarna när du vill, men räntan är ofta lägre. På ett bundet konto är räntan ofta högre, men du kan inte ta ut pengarna under bindningstiden. Läs också villkoren noga. Vissa konton har tak för hur stort belopp som ger den högsta räntan, och vissa begränsar antalet uttag.</p>
+
+<h2>Skatt på sparränta</h2>
+<p>Ränta på sparkonto är skattepliktig. Skattesatsen är 30&nbsp;procent enligt Skatteverket. Banken lämnar uppgift om räntan till Skatteverket, och beloppet finns med i din deklaration.</p>
+<div class="note"><p><strong>Exempel:</strong> Du har 100&nbsp;000&nbsp;kronor på ett konto med 2,5&nbsp;procent i ränta. Räntan blir 2&nbsp;500&nbsp;kronor. Skatten är 750&nbsp;kronor (30&nbsp;procent). Kvar efter skatt blir 1&nbsp;750&nbsp;kronor, vilket motsvarar 1,75&nbsp;procent.</p></div>
+<p>Därför ligger sparränta efter skatt klart under den ränta du ser i en annons. Det går bra att jämföra räntor före skatt med varandra, men räkna med skatten när du bedömer vad du faktiskt får behålla.</p>
+
+<h2>Insättningsgaranti</h2>
+<p>Om en bank går i konkurs ersätter staten, genom Riksgälden, insatta pengar och ränta upp till 1&nbsp;150&nbsp;000&nbsp;kronor per person och bank. Beloppet gäller sedan 1 januari 2026. Alla konton du har i samma bank räknas ihop, och pengar över gränsen skyddas inte. Du kan välja att sprida större belopp på flera banker.</p>
+
+<h2>Sparkonto jämfört med ISK och fonder</h2>
+<div class="table-wrap"><table class="text-table">
+<caption>Några skillnader mellan sparkonto och sparande i ISK med fonder eller aktier</caption>
+<thead><tr><th scope="col"></th><th scope="col">Sparkonto</th><th scope="col">ISK med fonder eller aktier</th></tr></thead>
+<tbody>
+<tr><th scope="row">Kan värdet gå ner?</th><td>Insatta pengar och intjänad ränta ligger kvar, inom insättningsgarantin.</td><td>Ja. Värdet följer marknaden och du kan förlora pengar.</td></tr>
+<tr><th scope="row">Avkastning</th><td>Den ränta banken anger.</td><td>Varierar och är aldrig garanterad.</td></tr>
+<tr><th scope="row">Skatt</th><td>30&nbsp;procent på räntan.</td><td>Schablonskatt på kapitalet. Läs mer i <a href="isk-forklarad.html">ISK förklarad</a>.</td></tr>
+<tr><th scope="row">Inflation</th><td>Om räntan efter skatt är lägre än inflationen minskar köpkraften över tid.</td><td>Avkastningen kan vara högre eller lägre än inflationen.</td></tr>
+</tbody>
+</table></div>
+<p>Inget av alternativen passar alla. Det beror på hur länge du ska spara, hur mycket du kan undvara och hur mycket risk du är beredd att ta. Du kan räkna på ISK-skatten i <a href="isk-skattekalkylator.html">ISK-skattekalkylatorn</a>.</p>
+
+<h2>Så jämför du sparräntor</h2>
+<ul>
+<li>Får du räntan från första kronan, eller bara på ett visst belopp?</li>
+<li>Är räntan rörlig eller fast, och hur länge gäller en eventuell kampanjränta?</li>
+<li>Är uttagen fria, begränsade eller helt bundna?</li>
+<li>Hur ofta läggs räntan till kontot?</li>
+<li>Finns det några avgifter eller krav på andra produkter hos banken?</li>
+<li>Har banken tillstånd av Finansinspektionen? Då omfattas insättningarna av insättningsgarantin.</li>
+</ul>
+<div class="note"><p>Sparräntorna ändras ofta. Den här sidan visar inga aktuella räntor, så kontrollera alltid räntan och villkoren hos banken innan du bestämmer dig.</p></div>
+
+<h2>Vanliga frågor</h2>
+<h3>Vad är skillnaden mellan sparränta och styrränta?</h3>
+<p>Styrräntan är Riksbankens ränta, som påverkar vad bankerna tar betalt för lån och betalar för sparande. Sparräntan är den ränta din bank betalar på ditt konto. Varje bank sätter sin egen sparränta, och den följer inte styrräntan på kronan.</p>
+<h3>Måste jag deklarera räntan själv?</h3>
+<p>Banken lämnar uppgift om räntan till Skatteverket, så beloppet finns normalt redan i din förtryckta deklaration. Kontrollera ändå att uppgifterna stämmer.</p>
+<h3>Får jag ränta på ränta på ett sparkonto?</h3>
+<p>Ja, om räntan läggs till kontot och står kvar. Då får du ränta även på den ränta du redan tjänat.</p>
+<h3>Är ett sparkonto säkrare än fonder?</h3>
+<p>Pengar på ett sparkonto kan inte sjunka i värde på samma sätt som fonder, och de skyddas av insättningsgarantin upp till gränsen. Priset är att avkastningen oftast är lägre. Om räntan efter skatt är lägre än inflationen minskar dessutom köpkraften över tid.</p>
+
+<h2>Källor</h2>
+<ul>
+<li><a href="https://www.skatteverket.se/privat/svarpavanligafragor/rantorochutdelning/privatrantorfaq/vilkaskattereglergallerforranteinkomsterutdelningarochrantebidrag.5.18e1b10334ebe8bc8000118462.html" rel="noopener">Skatteverket: skatteregler för ränteinkomster och utdelningar</a></li>
+<li><a href="https://www.riksgalden.se" rel="noopener">Riksgälden: insättningsgarantin</a> (maxbelopp 1&nbsp;150&nbsp;000&nbsp;kronor från 1 januari 2026)</li>
+<li><a href="https://www.riksbank.se" rel="noopener">Riksbanken: styrräntan</a></li>
+</ul>
+
+</div></div><div class="wrap tools-block"><h2>Läs mer</h2>
+<ul class="card-links">
+<li><a href="bolan.html"><strong>Bolån</strong><span>Kontantinsats, amorteringskrav och bolåneränta efter reglerna från 1 april 2026.</span></a></li>
+<li><a href="isk-forklarad.html"><strong>ISK förklarad</strong><span>Vad ett investeringssparkonto är, hur det skiljer sig från andra konton och när det passar.</span></a></li>
+<li><a href="ranta-pa-ranta.html"><strong>Ränta på ränta</strong><span>Formeln, räkneexempel och varför tiden betyder mest.</span></a></li>
+</ul>
+</div><div class="wrap tools-block"><h2>Fler kalkylatorer</h2>
+<ul class="card-links">
+<li><a href="sparkalkylator.html"><strong>Räkna ditt sparande</strong><span>Se hur startkapital, månadssparande och utdelningar växer med ränta på ränta.</span></a></li>
+<li><a href="sparmalskalkylator.html"><strong>Spara till ett mål</strong><span>Hur mycket behöver du lägga undan varje månad för att nå till exempel 500&nbsp;000&nbsp;kr?</span></a></li>
+<li><a href="isk-skattekalkylator.html"><strong>Förstå ISK-skatten</strong><span>Räkna ut din schablonskatt för 2026, med 300&nbsp;000&nbsp;kr skattefritt.</span></a></li>
+</ul>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="foot-grid">
+<div><h2>Kalkylatorer</h2><ul>
+<li><a href="sparkalkylator.html">Räkna ditt sparande</a></li>
+<li><a href="isk-skattekalkylator.html">Förstå ISK-skatten</a></li>
+<li><a href="sparmalskalkylator.html">Spara till ett mål</a></li>
+<li><a href="tillvaxtkalkylator.html">Jämför avkastning</a></li>
+</ul></div>
+<div><h2>Guider</h2><ul>
+<li><a href="isk-forklarad.html">ISK förklarad</a></li>
+<li><a href="ranta-pa-ranta.html">Ränta på ränta</a></li>
+<li><a href="utdelning-eller-kursutveckling.html">Utdelning eller kursutveckling</a></li>
+<li><a href="isk-och-schablonskatt.html">ISK och schablonskatt 2026</a></li>
+<li><a href="sparkonto.html">Sparränta och sparkonton</a></li>
+<li><a href="bolan.html">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="ordlista.html">Ordlista</a></li>
+</ul></div>
+<div><h2>Om webbplatsen</h2><ul>
+<li><a href="om-oss.html">Om webbplatsen</a></li>
+<li><a href="metod.html">Så räknar kalkylatorerna</a></li>
+<li><a href="kontakt.html">Kontakt</a></li>
+<li><a href="integritetspolicy.html">Integritetspolicy</a></li>
+<li><a href="friskrivning.html">Friskrivning och villkor</a></li>
+<li><button type="button" class="cc-link" data-cookie-settings>Cookieinställningar</button></li>
+</ul></div>
+</div>
+<p>Innehållet på Räntakalkylatorn är allmän information och exempel. Det är inte investeringsrådgivning, skatterådgivning eller en uppmaning att köpa eller sälja något. Historisk avkastning är ingen garanti för framtida avkastning, och du kan förlora pengar när du sparar i aktier och fonder.</p>
+<p>Senast uppdaterad 11 oktober 2026. &copy; 2026 TP.</p>
+</div>
+</footer>
+<script>
+(function () {
+  var fmt0 = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 0 });
+  var fmt1 = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 1 });
+  function el(id) { return document.getElementById(id); }
+  function num(id) { var v = el(id).value; return v === '' ? NaN : Number(v); }
+  function setText(id, t) { el(id).textContent = t; }
+  var TAX = 0.30;
+  function calc(P, r, n, compound) {
+    var bal = P, gross = 0, tax = 0, interest, i;
+    for (i = 0; i < n; i++) {
+      interest = (compound ? bal : P) * r;
+      gross += interest;
+      tax += interest * TAX;
+      bal += interest * (1 - TAX);
+    }
+    return { gross: gross, tax: tax, net: gross - tax, balance: bal };
+  }
+  function update() {
+    var P = num('amountInput'), rPct = num('rateInput'), n = Math.floor(num('yearsInput'));
+    var compound = el('compoundInput').checked;
+    var ok = isFinite(P) && P >= 0 && P <= 1e10 && isFinite(rPct) && rPct >= 0 && rPct <= 100 && isFinite(n) && n >= 1 && n <= 60;
+    if (!ok) {
+      setText('resLabel', '');
+      setText('resBalance', '–');
+      setText('resGross', '–'); setText('resTax', '–'); setText('resNet', '–');
+      setText('resMsg', 'Fyll i ett belopp, en ränta mellan 0 och 100 procent och antal år (1 till 60).');
+      return;
+    }
+    var r = calc(P, rPct / 100, n, compound);
+    setText('resLabel', 'Saldo efter skatt efter ' + n + (n === 1 ? ' år' : ' år'));
+    setText('resBalance', fmt0.format(r.balance) + ' kr');
+    setText('resGross', fmt0.format(r.gross) + ' kr');
+    setText('resTax', fmt0.format(r.tax) + ' kr');
+    setText('resNet', fmt0.format(r.net) + ' kr');
+    setText('resMsg', '');
+  }
+  var form = el('calcForm');
+  form.addEventListener('input', update);
+  form.addEventListener('change', update);
+  form.addEventListener('submit', function (e) { e.preventDefault(); });
+  update();
+})();
+</script>
+</body>
+</html>

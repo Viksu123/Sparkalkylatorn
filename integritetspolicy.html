@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Integritetspolicy och cookies | Räntakalkylatorn</title>
+<meta name="description" content="Vilka uppgifter som behandlas på webbplatsen, hur cookies hanteras och dina rättigheter.">
+<link rel="canonical" href="https://sparkalkylatorn.se/integritetspolicy.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a7358">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sv_SE">
+<meta property="og:site_name" content="Räntakalkylatorn">
+<meta property="og:title" content="Integritetspolicy och cookies | Räntakalkylatorn">
+<meta property="og:description" content="Vilka uppgifter som behandlas på webbplatsen, hur cookies hanteras och dina rättigheter.">
+<meta property="og:url" content="https://sparkalkylatorn.se/integritetspolicy.html">
+<style>
+:root {
+  --bg: #f3f6f4;
+  --surface: #ffffff;
+  --ink: #12262b;
+  --muted: #53666b;
+  --line: #d3dcd9;
+  --accent: #0a7358;
+  --accent-ink: #ffffff;
+  --note: #e7f1ed;
+  --c-deposit: #6f858b;
+  --c-gain: #0a7358;
+  --c-payout: #b9770e;
+  --s1: #b9770e;
+  --s2: #0a7358;
+  --s3: #2a5db8;
+  --focus: #1456c8;
+  --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f191c;
+    --surface: #162328;
+    --ink: #e8efee;
+    --muted: #9db0b4;
+    --line: #2a3c41;
+    --accent: #3fd6a6;
+    --accent-ink: #082018;
+    --note: #1a2e30;
+    --c-deposit: #8aa0a6;
+    --c-gain: #3fd6a6;
+    --c-payout: #e9a93c;
+    --s1: #e9a93c;
+    --s2: #3fd6a6;
+    --s3: #7fb0ff;
+    --focus: #8ab4ff;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 1.0625rem/1.65 var(--sans);
+}
+img, svg, canvas { max-width: 100%; }
+a { color: var(--accent); text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+
+.skip {
+  position: absolute; left: 12px; top: -60px; z-index: 10;
+  background: var(--accent); color: var(--accent-ink); padding: 10px 14px; border-radius: 6px;
+}
+.skip:focus { top: 12px; }
+
+.wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
+
+/* Sidhuvud */
+.site-header { border-bottom: 1px solid var(--line); background: var(--surface); }
+.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; padding-block: 14px; }
+.brand { font: 700 1.25rem/1.2 var(--serif); color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.site-nav ul { display: flex; flex-wrap: wrap; gap: 4px 4px; list-style: none; margin: 0; padding: 0; }
+.site-nav a {
+  display: inline-block; padding: 6px 10px; border-radius: 6px; color: var(--ink);
+  text-decoration: none; font-size: 0.97rem; font-weight: 500;
+}
+.site-nav a:hover { background: var(--note); }
+.site-nav a[aria-current="page"] { background: var(--note); color: var(--accent); font-weight: 700; }
+
+/* Rubriker och text */
+h1, h2, h3 { font-family: var(--serif); line-height: 1.2; letter-spacing: -0.015em; margin: 0 0 0.5em; }
+h1 { font-size: clamp(1.9rem, 4.6vw, 2.8rem); font-weight: 700; }
+h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-top: 2.2em; }
+h3 { font-size: 1.2rem; margin-top: 1.7em; }
+p, ul, ol { margin: 0 0 1.1em; }
+.lede { font-size: 1.2rem; color: var(--muted); max-width: 46rem; }
+.meta { color: var(--muted); font-size: 0.92rem; }
+
+.page-head { padding-block: 40px 8px; }
+.prose { max-width: 44rem; padding-bottom: 40px; }
+.prose li { margin-bottom: 0.4em; }
+.prose code, .formula {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.95em;
+}
+.formula {
+  display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: 14px 16px; margin: 0 0 1.2em; overflow-x: auto; white-space: nowrap;
+}
+.note {
+  background: var(--note); border-left: 4px solid var(--accent); border-radius: 6px;
+  padding: 14px 16px; margin: 0 0 1.2em;
+}
+.note p:last-child { margin-bottom: 0; }
+
+.table-wrap { overflow-x: auto; margin: 0 0 1.3em; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.97rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; }
+thead th { font-weight: 700; background: var(--note); position: sticky; top: 0; }
+tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+caption { text-align: left; padding: 10px 12px; font-weight: 700; }
+
+dl.glossary dt { font-family: var(--serif); font-weight: 700; font-size: 1.15rem; margin-top: 1.4em; }
+dl.glossary dd { margin: 0.2em 0 0; }
+
+.card-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; padding: 0; list-style: none; margin: 0 0 2em; }
+.card-links a {
+  display: block; height: 100%; padding: 18px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; text-decoration: none; color: var(--ink);
+}
+.card-links a:hover { border-color: var(--accent); }
+.card-links strong { display: block; font: 700 1.1rem/1.3 var(--serif); margin-bottom: 4px; color: var(--accent); }
+.card-links span { color: var(--muted); font-size: 0.96rem; }
+
+/* Kalkylator */
+.calc { display: grid; gap: 24px; margin-block: 24px 36px; }
+@media (min-width: 900px) { .calc { grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); align-items: start; } }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+.panel h2 { margin: 0 0 14px; font-size: 1.25rem; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+.field { margin-bottom: 18px; }
+.field label { display: block; font-weight: 600; margin-bottom: 6px; }
+.field .hint { display: block; font-weight: 400; font-size: 0.88rem; color: var(--muted); }
+.field-row { display: flex; align-items: center; gap: 14px; }
+.field-row input[type="range"] { flex: 1; min-width: 0; accent-color: var(--accent); height: 28px; }
+input[type="number"], select {
+  font: inherit; font-weight: 600; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-height: 44px;
+}
+input[type="number"] { width: 9.5rem; text-align: right; }
+select { width: 100%; }
+.check { display: flex; gap: 10px; align-items: center; padding-top: 14px; border-top: 1px solid var(--line); margin-bottom: 18px; }
+.check input { width: 22px; height: 22px; accent-color: var(--accent); }
+.check label { font-weight: 600; margin: 0; }
+
+.results h2 { margin-bottom: 4px; }
+.big { font: 700 clamp(2.1rem, 6vw, 3.1rem)/1.1 var(--serif); letter-spacing: -0.02em; color: var(--accent); margin: 4px 0 16px; font-variant-numeric: tabular-nums; }
+.bar { display: flex; height: 18px; border-radius: 9px; overflow: hidden; background: var(--line); margin-bottom: 10px; }
+.bar span { display: block; height: 100%; min-width: 0; transition: width 0.25s ease; }
+.bar [hidden] { display: none; }
+#segDeposits { background: var(--c-deposit); }
+#segGain { background: var(--c-gain); }
+#segWithdrawn { background: var(--c-payout); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 18px; font-size: 0.93rem; color: var(--muted); }
+.legend li::before {
+  content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px;
+  background: var(--sw, var(--c-deposit));
+}
+.legend [data-sw="gain"]::before { --sw: var(--c-gain); }
+.legend [data-sw="payout"]::before { --sw: var(--c-payout); }
+.legend [hidden] { display: none; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 0; }
+.stats div { border-top: 1px solid var(--line); padding-top: 8px; }
+.stats [hidden] { display: none; }
+.stats dt { font-size: 0.92rem; color: var(--muted); }
+.stats dd { margin: 2px 0 0; font-weight: 700; font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+
+.chart-panel { margin-top: 24px; }
+.chart-box { position: relative; }
+.chart-tip {
+  position: absolute; pointer-events: none; z-index: 2; background: var(--ink); color: var(--bg);
+  padding: 8px 10px; border-radius: 6px; font-size: 0.88rem; line-height: 1.45; white-space: nowrap;
+}
+.chart-box canvas { display: block; touch-action: pan-y; }
+details.table-details { margin-top: 14px; }
+details.table-details summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+details.table-details .table-wrap { max-height: 360px; overflow: auto; margin-top: 8px; }
+
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Sidfot */
+.site-footer { border-top: 1px solid var(--line); background: var(--surface); margin-top: 48px; padding-block: 28px; font-size: 0.95rem; }
+.site-footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 14px; }
+.site-footer p { color: var(--muted); max-width: 50rem; margin-bottom: 0.6em; }
+
+@media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+
+/* Tillägg: nav med fler sidor, verktygskort, sidfot i kolumner */
+[hidden] { display: none !important; }
+.card-links.tools { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.card-links.tools a { padding: 22px; }
+.card-links.tools strong { font-size: 1.3rem; margin-bottom: 6px; }
+.card-links.tools span { font-size: 1rem; }
+.legend [data-sw="s1"]::before { --sw: var(--s1); }
+.legend [data-sw="s2"]::before { --sw: var(--s2); }
+.legend [data-sw="s3"]::before { --sw: var(--s3); }
+.field-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.field-grid .field { margin-bottom: 0; }
+.field-grid input[type="number"] { width: 100%; }
+.field-grid label { font-size: 0.95rem; }
+.scenarios { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 6px 0 18px; }
+.scenarios div { border-top: 4px solid var(--sc, var(--accent)); padding-top: 8px; }
+.scenarios [data-sc="1"] { --sc: var(--s1); }
+.scenarios [data-sc="2"] { --sc: var(--s2); }
+.scenarios [data-sc="3"] { --sc: var(--s3); }
+.scenarios dt { font-size: 0.92rem; color: var(--muted); }
+.scenarios dd { margin: 2px 0 0; font: 700 1.45rem/1.2 var(--serif); font-variant-numeric: tabular-nums; }
+.foot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 22px; margin-bottom: 18px; }
+.foot-grid h2 { font: 700 1rem/1.3 var(--sans); margin: 0 0 8px; letter-spacing: 0; }
+.foot-grid ul { display: block; margin: 0; }
+.foot-grid li { margin-bottom: 4px; }
+.tools-block { margin-top: 8px; }
+
+.calc > *, .panel { min-width: 0; }
+.prose, .panel { overflow-wrap: break-word; }
+.prose a, .site-footer a { overflow-wrap: anywhere; }
+</style>
+<!-- Cookie-samtycke och Google Analytics. Mät-ID fylls i i assets/cookie-consent.js. -->
+<script src="assets/cookie-consent.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#innehall">Hoppa till innehållet</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="index.html">Räntakalkylatorn</a>
+<nav class="site-nav" aria-label="Huvudmeny"><ul>
+<li><a href="index.html">Start</a></li>
+<li><a href="sparkalkylator.html">Sparkalkylator</a></li>
+<li><a href="isk-skattekalkylator.html">ISK-skatt</a></li>
+<li><a href="sparmalskalkylator.html">Sparmål</a></li>
+<li><a href="tillvaxtkalkylator.html">Tillväxt</a></li>
+<li><a href="sparkonto.html">Sparränta</a></li>
+<li><a href="bolan.html">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="guider.html">Guider</a></li>
+<li><a href="om-oss.html">Om oss</a></li>
+</ul></nav>
+</div>
+</header>
+<main id="innehall">
+<div class="wrap page-head">
+<h1>Integritetspolicy och cookies</h1>
+<p class="lede">Här beskriver vi vilka uppgifter som behandlas när du besöker webbplatsen, varför och vilka val du har.</p>
+<p class="meta">Senast uppdaterad 11 oktober 2026</p>
+</div><div class="wrap"><div class="prose">
+
+<h2>Personuppgiftsansvarig</h2>
+<p>TP ansvarar för behandlingen av personuppgifter på den här webbplatsen. Kontakt: <a href="mailto:Timopeltonen6@gmail.com">Timopeltonen6@gmail.com</a>.</p>
+
+<h2>Det du fyller i kalkylatorn</h2>
+<p>Siffrorna du anger i kalkylatorn används bara i din webbläsare för att göra beräkningen. De skickas inte till oss eller någon annan och sparas inte.</p>
+
+<h2>Serverloggar</h2>
+<p>Webbhotellet som lagrar webbplatsen (Netlify) kan logga teknisk information när du besöker sidan, till exempel IP-adress, tid, sida och webbläsare. Syftet är drift och säkerhet. Rättslig grund är berättigat intresse. Loggarna sparas enligt webbhotellets rutiner, normalt en begränsad tid.</p>
+
+<h2>E-post</h2>
+<p>Om du kontaktar oss behandlar vi din e-postadress och ditt meddelande för att kunna svara. Rättslig grund är berättigat intresse. Vi raderar korrespondensen när ärendet är avslutat, om vi inte är skyldiga att spara den.</p>
+
+<h2>Cookies och statistik</h2>
+<p>Webbplatsen använder Google Analytics för att mäta hur många som besöker sidan och vilka sidor som läses. Det sker bara om du godkänner i cookie-rutan. Väljer du Neka, eller inte väljer alls, laddas inte Google Analytics och inga cookies för statistik sätts. Rättslig grund är ditt samtycke.</p>
+<p>Om du godkänner sätter Google Analytics cookies i din webbläsare, till exempel <code>_ga</code> och <code>_ga_</code> följt av ett id för vår webbplats. De används för att skilja besökare åt och sparas i upp till två år. Google Analytics samlar in uppgifter som vilka sidor du besöker, ungefärlig plats, typ av enhet och webbläsare samt hur du kom till sidan. IP-adresser loggas inte i Google Analytics 4. Vi använder inte Google Analytics för annonser eller personanpassning.</p>
+<p>Uppgifterna behandlas av Google som personuppgiftsbiträde för statistiken och kan föras över till USA. Google LLC är anslutet till EU–US Data Privacy Framework.</p>
+<p>Ditt val sparas i din webbläsare (localStorage), inte i en cookie, och gäller i tolv månader. Du kan ändra dig när som helst genom att klicka på Cookieinställningar längst ner på sidan. Ändrar du från Godkänn till Neka tas Googles cookies bort och spårningen stängs av.</p>
+
+<h2>Dina rättigheter</h2>
+<p>Enligt dataskyddsförordningen (GDPR) har du rätt att begära tillgång till, rättelse eller radering av dina personuppgifter, att begränsa eller invända mot behandling och att återkalla ett samtycke. Kontakta oss via e-post. Du har också rätt att lämna klagomål till Integritetsskyddsmyndigheten (IMY): <a href="https://www.imy.se" rel="noopener">imy.se</a>.</p>
+
+<h2>Utlämnande av uppgifter</h2>
+<p>Vi säljer inte personuppgifter. Uppgifter kan behandlas av våra leverantörer, till exempel webbhotellet och Google (för statistik, om du godkänt), på de villkor som beskrivs ovan.</p>
+
+<h2>Ändringar</h2>
+<p>Vi kan uppdatera policyn. Datumet för senaste ändring står överst på sidan.</p>
+
+</div></div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="foot-grid">
+<div><h2>Kalkylatorer</h2><ul>
+<li><a href="sparkalkylator.html">Räkna ditt sparande</a></li>
+<li><a href="isk-skattekalkylator.html">Förstå ISK-skatten</a></li>
+<li><a href="sparmalskalkylator.html">Spara till ett mål</a></li>
+<li><a href="tillvaxtkalkylator.html">Jämför avkastning</a></li>
+</ul></div>
+<div><h2>Guider</h2><ul>
+<li><a href="isk-forklarad.html">ISK förklarad</a></li>
+<li><a href="ranta-pa-ranta.html">Ränta på ränta</a></li>
+<li><a href="utdelning-eller-kursutveckling.html">Utdelning eller kursutveckling</a></li>
+<li><a href="isk-och-schablonskatt.html">ISK och schablonskatt 2026</a></li>
+<li><a href="sparkonto.html">Sparränta och sparkonton</a></li>
+<li><a href="bolan.html">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="ordlista.html">Ordlista</a></li>
+</ul></div>
+<div><h2>Om webbplatsen</h2><ul>
+<li><a href="om-oss.html">Om webbplatsen</a></li>
+<li><a href="metod.html">Så räknar kalkylatorerna</a></li>
+<li><a href="kontakt.html">Kontakt</a></li>
+<li><a href="integritetspolicy.html">Integritetspolicy</a></li>
+<li><a href="friskrivning.html">Friskrivning och villkor</a></li>
+<li><button type="button" class="cc-link" data-cookie-settings>Cookieinställningar</button></li>
+</ul></div>
+</div>
+<p>Innehållet på Räntakalkylatorn är allmän information och exempel. Det är inte investeringsrådgivning, skatterådgivning eller en uppmaning att köpa eller sälja något. Historisk avkastning är ingen garanti för framtida avkastning, och du kan förlora pengar när du sparar i aktier och fonder.</p>
+<p>Senast uppdaterad 11 oktober 2026. &copy; 2026 TP.</p>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Så räknar kalkylatorerna: metod och antaganden | Räntakalkylatorn</title>
+<meta name="description" content="Formler och antaganden bakom kalkylatorerna för sparande, ISK-skatt, sparmål och tillväxt, så att du kan kontrollera resultaten.">
+<link rel="canonical" href="https://sparkalkylatorn.se/metod.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a7358">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sv_SE">
+<meta property="og:site_name" content="Räntakalkylatorn">
+<meta property="og:title" content="Så räknar kalkylatorerna: metod och antaganden | Räntakalkylatorn">
+<meta property="og:description" content="Formler och antaganden bakom kalkylatorerna för sparande, ISK-skatt, sparmål och tillväxt, så att du kan kontrollera resultaten.">
+<meta property="og:url" content="https://sparkalkylatorn.se/metod.html">
+<style>
+:root {
+  --bg: #f3f6f4;
+  --surface: #ffffff;
+  --ink: #12262b;
+  --muted: #53666b;
+  --line: #d3dcd9;
+  --accent: #0a7358;
+  --accent-ink: #ffffff;
+  --note: #e7f1ed;
+  --c-deposit: #6f858b;
+  --c-gain: #0a7358;
+  --c-payout: #b9770e;
+  --s1: #b9770e;
+  --s2: #0a7358;
+  --s3: #2a5db8;
+  --focus: #1456c8;
+  --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f191c;
+    --surface: #162328;
+    --ink: #e8efee;
+    --muted: #9db0b4;
+    --line: #2a3c41;
+    --accent: #3fd6a6;
+    --accent-ink: #082018;
+    --note: #1a2e30;
+    --c-deposit: #8aa0a6;
+    --c-gain: #3fd6a6;
+    --c-payout: #e9a93c;
+    --s1: #e9a93c;
+    --s2: #3fd6a6;
+    --s3: #7fb0ff;
+    --focus: #8ab4ff;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 1.0625rem/1.65 var(--sans);
+}
+img, svg, canvas { max-width: 100%; }
+a { color: var(--accent); text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+
+.skip {
+  position: absolute; left: 12px; top: -60px; z-index: 10;
+  background: var(--accent); color: var(--accent-ink); padding: 10px 14px; border-radius: 6px;
+}
+.skip:focus { top: 12px; }
+
+.wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
+
+/* Sidhuvud */
+.site-header { border-bottom: 1px solid var(--line); background: var(--surface); }
+.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; padding-block: 14px; }
+.brand { font: 700 1.25rem/1.2 var(--serif); color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.site-nav ul { display: flex; flex-wrap: wrap; gap: 4px 4px; list-style: none; margin: 0; padding: 0; }
+.site-nav a {
+  display: inline-block; padding: 6px 10px; border-radius: 6px; color: var(--ink);
+  text-decoration: none; font-size: 0.97rem; font-weight: 500;
+}
+.site-nav a:hover { background: var(--note); }
+.site-nav a[aria-current="page"] { background: var(--note); color: var(--accent); font-weight: 700; }
+
+/* Rubriker och text */
+h1, h2, h3 { font-family: var(--serif); line-height: 1.2; letter-spacing: -0.015em; margin: 0 0 0.5em; }
+h1 { font-size: clamp(1.9rem, 4.6vw, 2.8rem); font-weight: 700; }
+h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-top: 2.2em; }
+h3 { font-size: 1.2rem; margin-top: 1.7em; }
+p, ul, ol { margin: 0 0 1.1em; }
+.lede { font-size: 1.2rem; color: var(--muted); max-width: 46rem; }
+.meta { color: var(--muted); font-size: 0.92rem; }
+
+.page-head { padding-block: 40px 8px; }
+.prose { max-width: 44rem; padding-bottom: 40px; }
+.prose li { margin-bottom: 0.4em; }
+.prose code, .formula {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.95em;
+}
+.formula {
+  display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: 14px 16px; margin: 0 0 1.2em; overflow-x: auto; white-space: nowrap;
+}
+.note {
+  background: var(--note); border-left: 4px solid var(--accent); border-radius: 6px;
+  padding: 14px 16px; margin: 0 0 1.2em;
+}
+.note p:last-child { margin-bottom: 0; }
+
+.table-wrap { overflow-x: auto; margin: 0 0 1.3em; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.97rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; }
+thead th { font-weight: 700; background: var(--note); position: sticky; top: 0; }
+tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+caption { text-align: left; padding: 10px 12px; font-weight: 700; }
+
+dl.glossary dt { font-family: var(--serif); font-weight: 700; font-size: 1.15rem; margin-top: 1.4em; }
+dl.glossary dd { margin: 0.2em 0 0; }
+
+.card-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; padding: 0; list-style: none; margin: 0 0 2em; }
+.card-links a {
+  display: block; height: 100%; padding: 18px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; text-decoration: none; color: var(--ink);
+}
+.card-links a:hover { border-color: var(--accent); }
+.card-links strong { display: block; font: 700 1.1rem/1.3 var(--serif); margin-bottom: 4px; color: var(--accent); }
+.card-links span { color: var(--muted); font-size: 0.96rem; }
+
+/* Kalkylator */
+.calc { display: grid; gap: 24px; margin-block: 24px 36px; }
+@media (min-width: 900px) { .calc { grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); align-items: start; } }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+.panel h2 { margin: 0 0 14px; font-size: 1.25rem; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+.field { margin-bottom: 18px; }
+.field label { display: block; font-weight: 600; margin-bottom: 6px; }
+.field .hint { display: block; font-weight: 400; font-size: 0.88rem; color: var(--muted); }
+.field-row { display: flex; align-items: center; gap: 14px; }
+.field-row input[type="range"] { flex: 1; min-width: 0; accent-color: var(--accent); height: 28px; }
+input[type="number"], select {
+  font: inherit; font-weight: 600; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-height: 44px;
+}
+input[type="number"] { width: 9.5rem; text-align: right; }
+select { width: 100%; }
+.check { display: flex; gap: 10px; align-items: center; padding-top: 14px; border-top: 1px solid var(--line); margin-bottom: 18px; }
+.check input { width: 22px; height: 22px; accent-color: var(--accent); }
+.check label { font-weight: 600; margin: 0; }
+
+.results h2 { margin-bottom: 4px; }
+.big { font: 700 clamp(2.1rem, 6vw, 3.1rem)/1.1 var(--serif); letter-spacing: -0.02em; color: var(--accent); margin: 4px 0 16px; font-variant-numeric: tabular-nums; }
+.bar { display: flex; height: 18px; border-radius: 9px; overflow: hidden; background: var(--line); margin-bottom: 10px; }
+.bar span { display: block; height: 100%; min-width: 0; transition: width 0.25s ease; }
+.bar [hidden] { display: none; }
+#segDeposits { background: var(--c-deposit); }
+#segGain { background: var(--c-gain); }
+#segWithdrawn { background: var(--c-payout); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 18px; font-size: 0.93rem; color: var(--muted); }
+.legend li::before {
+  content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px;
+  background: var(--sw, var(--c-deposit));
+}
+.legend [data-sw="gain"]::before { --sw: var(--c-gain); }
+.legend [data-sw="payout"]::before { --sw: var(--c-payout); }
+.legend [hidden] { display: none; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 0; }
+.stats div { border-top: 1px solid var(--line); padding-top: 8px; }
+.stats [hidden] { display: none; }
+.stats dt { font-size: 0.92rem; color: var(--muted); }
+.stats dd { margin: 2px 0 0; font-weight: 700; font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+
+.chart-panel { margin-top: 24px; }
+.chart-box { position: relative; }
+.chart-tip {
+  position: absolute; pointer-events: none; z-index: 2; background: var(--ink); color: var(--bg);
+  padding: 8px 10px; border-radius: 6px; font-size: 0.88rem; line-height: 1.45; white-space: nowrap;
+}
+.chart-box canvas { display: block; touch-action: pan-y; }
+details.table-details { margin-top: 14px; }
+details.table-details summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+details.table-details .table-wrap { max-height: 360px; overflow: auto; margin-top: 8px; }
+
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Sidfot */
+.site-footer { border-top: 1px solid var(--line); background: var(--surface); margin-top: 48px; padding-block: 28px; font-size: 0.95rem; }
+.site-footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 14px; }
+.site-footer p { color: var(--muted); max-width: 50rem; margin-bottom: 0.6em; }
+
+@media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+
+/* Tillägg: nav med fler sidor, verktygskort, sidfot i kolumner */
+[hidden] { display: none !important; }
+.card-links.tools { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.card-links.tools a { padding: 22px; }
+.card-links.tools strong { font-size: 1.3rem; margin-bottom: 6px; }
+.card-links.tools span { font-size: 1rem; }
+.legend [data-sw="s1"]::before { --sw: var(--s1); }
+.legend [data-sw="s2"]::before { --sw: var(--s2); }
+.legend [data-sw="s3"]::before { --sw: var(--s3); }
+.field-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.field-grid .field { margin-bottom: 0; }
+.field-grid input[type="number"] { width: 100%; }
+.field-grid label { font-size: 0.95rem; }
+.scenarios { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 6px 0 18px; }
+.scenarios div { border-top: 4px solid var(--sc, var(--accent)); padding-top: 8px; }
+.scenarios [data-sc="1"] { --sc: var(--s1); }
+.scenarios [data-sc="2"] { --sc: var(--s2); }
+.scenarios [data-sc="3"] { --sc: var(--s3); }
+.scenarios dt { font-size: 0.92rem; color: var(--muted); }
+.scenarios dd { margin: 2px 0 0; font: 700 1.45rem/1.2 var(--serif); font-variant-numeric: tabular-nums; }
+.foot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 22px; margin-bottom: 18px; }
+.foot-grid h2 { font: 700 1rem/1.3 var(--sans); margin: 0 0 8px; letter-spacing: 0; }
+.foot-grid ul { display: block; margin: 0; }
+.foot-grid li { margin-bottom: 4px; }
+.tools-block { margin-top: 8px; }
+
+.calc > *, .panel { min-width: 0; }
+.prose, .panel { overflow-wrap: break-word; }
+.prose a, .site-footer a { overflow-wrap: anywhere; }
+</style>
+<!-- Cookie-samtycke och Google Analytics. Mät-ID fylls i i assets/cookie-consent.js. -->
+<script src="assets/cookie-consent.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#innehall">Hoppa till innehållet</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="index.html">Räntakalkylatorn</a>
+<nav class="site-nav" aria-label="Huvudmeny"><ul>
+<li><a href="index.html">Start</a></li>
+<li><a href="sparkalkylator.html">Sparkalkylator</a></li>
+<li><a href="isk-skattekalkylator.html">ISK-skatt</a></li>
+<li><a href="sparmalskalkylator.html">Sparmål</a></li>
+<li><a href="tillvaxtkalkylator.html">Tillväxt</a></li>
+<li><a href="sparkonto.html">Sparränta</a></li>
+<li><a href="bolan.html">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="guider.html">Guider</a></li>
+<li><a href="om-oss.html">Om oss</a></li>
+</ul></nav>
+</div>
+</header>
+<main id="innehall">
+<div class="wrap page-head">
+<h1>Så räknar kalkylatorerna</h1>
+<p class="lede">En genomgång av antaganden och formler, så att du kan kontrollera resultaten själv.</p>
+<p class="meta">Senast uppdaterad 11 oktober 2026</p>
+</div><div class="wrap"><div class="prose">
+
+<h2>Gemensamma förutsättningar</h2>
+<ul>
+<li>Avkastningen antas vara densamma varje år. Det är en jämn tillväxt, inte en prognos.</li>
+<li>Skatt, avgifter och courtage ingår inte, om inget annat anges.</li>
+<li>Alla beräkningar sker i din webbläsare. Inget du fyller i sparas eller skickas.</li>
+</ul>
+
+<h2>Sparkalkylatorn</h2>
+<p>Sparandet delas upp i månader. Varje månad sker detta i följd: månadens insättning läggs till, utdelningen räknas på det nya värdet och kursen utvecklas enligt tillväxten.</p>
+<p><strong>Kurstillväxt.</strong> Med standardinställningen, effektiv tillväxt, omräknas årstillväxten <code>g</code> till en månadstillväxt med <code>(1 + g)<sup>1/12</sup> − 1</code>. Efter tolv månader har kursen då ökat exakt med <code>g</code>. Med nominell metod används i stället <code>g ÷ 12</code> varje månad, vilket ger en något högre årlig tillväxt. Med 12 % blir ett års sparande av 100 000 kr till 112 000 kr med effektiv metod och 112 683 kr med nominell metod.</p>
+<p><strong>Utdelning.</strong> Varje månad räknas utdelningen som portföljens värde gånger direktavkastningen delat med tolv. Om du återinvesterar läggs den till portföljen. Annars läggs den i en separat summa, uttagna utdelningar, som inte får någon avkastning. Eftersom återinvesterade utdelningar också växer blir den totala avkastningen något högre än summan av de två procentsatserna. Med 4 % tillväxt och 3 % direktavkastning blir den ungefär 7,2 % per år.</p>
+<p><strong>Inflation.</strong> Portföljens värde i dagens penningvärde är slutvärdet delat med <code>(1 + inflation)<sup>antal år</sup></code>.</p>
+
+<h2>ISK-skattekalkylatorn</h2>
+<p>Kapitalunderlaget är en fjärdedel av summan av kontots värde vid kvartalens början plus insättningar under året. Underlaget minskas med den skattefria grundnivån, och resten multipliceras med schablonräntan. Schablonintäkten beskattas med 30 %. För 2026 är grundnivån 300 000 kr och schablonräntan 3,55 %, vilket ger 1,065 % av underlaget över grundnivån. Du kan ändra båda värdena om du vill prova andra antaganden.</p>
+
+<h2>Sparmålskalkylatorn</h2>
+<p>Månadssparandet <code>M</code> beräknas så att startkapitalet <code>S</code> plus insättningarna når målet efter <code>N</code> månader med månadstillväxt <code>i</code>:</p>
+<span class="formula">M = (Mål − S × (1 + i)<sup>N</sup>) ÷ ( ((1 + i)<sup>N</sup> − 1) ÷ i × (1 + i) )</span>
+<p>Insättningen sker i början av månaden. Månadstillväxten är <code>(1 + r)<sup>1/12</sup> − 1</code> för årsavkastningen <code>r</code>. Beloppet avrundas uppåt till hela kronor.</p>
+
+<h2>Tillväxtkalkylatorn</h2>
+<p>Avkastningen efter avgift är avkastningen minus avgiften. Beloppet växer med <code>belopp × (1 + avkastning efter avgift)<sup>antal år</sup></code>. Fördubblingstiden är <code>ln 2 ÷ ln(1 + avkastning efter avgift)</code>.</p>
+
+<h2>Sparräntekalkylatorn</h2>
+<p>Varje år räknas räntan som saldot gånger räntesatsen. Skatten är 30 % av räntan, och det som blir kvar läggs till saldot om du har valt att räntan ska stå kvar. Slutsaldot blir då <code>belopp × (1 + ränta × 0,7)<sup>antal år</sup></code>. Utan ränta på ränta räknas räntan alltid på det ursprungliga beloppet. Räknaren utgår från en fast ränta och inga insättningar eller uttag.</p>
+
+<h2>Bolånekalkylatorn</h2>
+<p>Belåningsgraden är lånebeloppet delat med bostadens värde. Amorteringskravet är 2 % av lånet per år om belåningsgraden är över 70 %, 1 % om den är över 50 % och högst 70 %, och inget krav annars. Räntan per månad är <code>lånebelopp × ränta ÷ 12</code>, och amorteringen per månad är kravet delat med tolv. Ränteavdrag, avgifter och bankens egen kreditprövning ingår inte.</p>
+
+<h2>Kontrollera själv</h2>
+<p>För enkla fall kan du jämföra mot formeln på sidan <a href="ranta-pa-ranta.html">Ränta på ränta</a>. 100 000 kr med 7 % tillväxt i 20 år ger 100 000 × 1,07<sup>20</sup> ≈ 386 968 kr, vilket sparkalkylatorn också visar när utdelning och insättningar är noll.</p>
+
+<h2>Begränsningar</h2>
+<p>Kalkylatorerna är pedagogiska verktyg. De kan inte förutsäga marknaden, tar inte hänsyn till att avkastningen varierar mellan åren och räknar inte med förändringar i skatteregler eller avgifter. Se även <a href="friskrivning.html">friskrivningen</a>.</p>
+<p>Hittar du ett fel i en beräkning eller en text? <a href="kontakt.html">Kontakta oss</a> så rättar vi det.</p>
+
+</div></div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="foot-grid">
+<div><h2>Kalkylatorer</h2><ul>
+<li><a href="sparkalkylator.html">Räkna ditt sparande</a></li>
+<li><a href="isk-skattekalkylator.html">Förstå ISK-skatten</a></li>
+<li><a href="sparmalskalkylator.html">Spara till ett mål</a></li>
+<li><a href="tillvaxtkalkylator.html">Jämför avkastning</a></li>
+</ul></div>
+<div><h2>Guider</h2><ul>
+<li><a href="isk-forklarad.html">ISK förklarad</a></li>
+<li><a href="ranta-pa-ranta.html">Ränta på ränta</a></li>
+<li><a href="utdelning-eller-kursutveckling.html">Utdelning eller kursutveckling</a></li>
+<li><a href="isk-och-schablonskatt.html">ISK och schablonskatt 2026</a></li>
+<li><a href="sparkonto.html">Sparränta och sparkonton</a></li>
+<li><a href="bolan.html">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="ordlista.html">Ordlista</a></li>
+</ul></div>
+<div><h2>Om webbplatsen</h2><ul>
+<li><a href="om-oss.html">Om webbplatsen</a></li>
+<li><a href="metod.html">Så räknar kalkylatorerna</a></li>
+<li><a href="kontakt.html">Kontakt</a></li>
+<li><a href="integritetspolicy.html">Integritetspolicy</a></li>
+<li><a href="friskrivning.html">Friskrivning och villkor</a></li>
+<li><button type="button" class="cc-link" data-cookie-settings>Cookieinställningar</button></li>
+</ul></div>
+</div>
+<p>Innehållet på Räntakalkylatorn är allmän information och exempel. Det är inte investeringsrådgivning, skatterådgivning eller en uppmaning att köpa eller sälja något. Historisk avkastning är ingen garanti för framtida avkastning, och du kan förlora pengar när du sparar i aktier och fonder.</p>
+<p>Senast uppdaterad 11 oktober 2026. &copy; 2026 TP.</p>
+</div>
+</footer>
+</body>
+</html>

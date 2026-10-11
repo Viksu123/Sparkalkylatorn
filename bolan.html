@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bolån: kontantinsats, amortering och ränta | Räntakalkylatorn</title>
+<meta name="description" content="Så fungerar bolån i Sverige efter 1 april 2026: kontantinsats, bolånetak, amorteringskrav och bolåneränta. Med enkel räknare.">
+<link rel="canonical" href="https://sparkalkylatorn.se/bolan.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a7358">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sv_SE">
+<meta property="og:site_name" content="Räntakalkylatorn">
+<meta property="og:title" content="Bolån: kontantinsats, amortering och ränta | Räntakalkylatorn">
+<meta property="og:description" content="Så fungerar bolån i Sverige efter 1 april 2026: kontantinsats, bolånetak, amorteringskrav och bolåneränta. Med enkel räknare.">
+<meta property="og:url" content="https://sparkalkylatorn.se/bolan.html">
+<style>
+:root {
+  --bg: #f3f6f4;
+  --surface: #ffffff;
+  --ink: #12262b;
+  --muted: #53666b;
+  --line: #d3dcd9;
+  --accent: #0a7358;
+  --accent-ink: #ffffff;
+  --note: #e7f1ed;
+  --c-deposit: #6f858b;
+  --c-gain: #0a7358;
+  --c-payout: #b9770e;
+  --s1: #b9770e;
+  --s2: #0a7358;
+  --s3: #2a5db8;
+  --focus: #1456c8;
+  --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f191c;
+    --surface: #162328;
+    --ink: #e8efee;
+    --muted: #9db0b4;
+    --line: #2a3c41;
+    --accent: #3fd6a6;
+    --accent-ink: #082018;
+    --note: #1a2e30;
+    --c-deposit: #8aa0a6;
+    --c-gain: #3fd6a6;
+    --c-payout: #e9a93c;
+    --s1: #e9a93c;
+    --s2: #3fd6a6;
+    --s3: #7fb0ff;
+    --focus: #8ab4ff;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 1.0625rem/1.65 var(--sans);
+}
+img, svg, canvas { max-width: 100%; }
+a { color: var(--accent); text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+
+.skip {
+  position: absolute; left: 12px; top: -60px; z-index: 10;
+  background: var(--accent); color: var(--accent-ink); padding: 10px 14px; border-radius: 6px;
+}
+.skip:focus { top: 12px; }
+
+.wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
+
+/* Sidhuvud */
+.site-header { border-bottom: 1px solid var(--line); background: var(--surface); }
+.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; padding-block: 14px; }
+.brand { font: 700 1.25rem/1.2 var(--serif); color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.site-nav ul { display: flex; flex-wrap: wrap; gap: 4px 4px; list-style: none; margin: 0; padding: 0; }
+.site-nav a {
+  display: inline-block; padding: 6px 10px; border-radius: 6px; color: var(--ink);
+  text-decoration: none; font-size: 0.97rem; font-weight: 500;
+}
+.site-nav a:hover { background: var(--note); }
+.site-nav a[aria-current="page"] { background: var(--note); color: var(--accent); font-weight: 700; }
+
+/* Rubriker och text */
+h1, h2, h3 { font-family: var(--serif); line-height: 1.2; letter-spacing: -0.015em; margin: 0 0 0.5em; }
+h1 { font-size: clamp(1.9rem, 4.6vw, 2.8rem); font-weight: 700; }
+h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-top: 2.2em; }
+h3 { font-size: 1.2rem; margin-top: 1.7em; }
+p, ul, ol { margin: 0 0 1.1em; }
+.lede { font-size: 1.2rem; color: var(--muted); max-width: 46rem; }
+.meta { color: var(--muted); font-size: 0.92rem; }
+
+.page-head { padding-block: 40px 8px; }
+.prose { max-width: 44rem; padding-bottom: 40px; }
+.prose li { margin-bottom: 0.4em; }
+.prose code, .formula {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.95em;
+}
+.formula {
+  display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: 14px 16px; margin: 0 0 1.2em; overflow-x: auto; white-space: nowrap;
+}
+.note {
+  background: var(--note); border-left: 4px solid var(--accent); border-radius: 6px;
+  padding: 14px 16px; margin: 0 0 1.2em;
+}
+.note p:last-child { margin-bottom: 0; }
+
+.table-wrap { overflow-x: auto; margin: 0 0 1.3em; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.97rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; }
+thead th { font-weight: 700; background: var(--note); position: sticky; top: 0; }
+tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+caption { text-align: left; padding: 10px 12px; font-weight: 700; }
+
+dl.glossary dt { font-family: var(--serif); font-weight: 700; font-size: 1.15rem; margin-top: 1.4em; }
+dl.glossary dd { margin: 0.2em 0 0; }
+
+.card-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; padding: 0; list-style: none; margin: 0 0 2em; }
+.card-links a {
+  display: block; height: 100%; padding: 18px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; text-decoration: none; color: var(--ink);
+}
+.card-links a:hover { border-color: var(--accent); }
+.card-links strong { display: block; font: 700 1.1rem/1.3 var(--serif); margin-bottom: 4px; color: var(--accent); }
+.card-links span { color: var(--muted); font-size: 0.96rem; }
+
+/* Kalkylator */
+.calc { display: grid; gap: 24px; margin-block: 24px 36px; }
+@media (min-width: 900px) { .calc { grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); align-items: start; } }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+.panel h2 { margin: 0 0 14px; font-size: 1.25rem; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+.field { margin-bottom: 18px; }
+.field label { display: block; font-weight: 600; margin-bottom: 6px; }
+.field .hint { display: block; font-weight: 400; font-size: 0.88rem; color: var(--muted); }
+.field-row { display: flex; align-items: center; gap: 14px; }
+.field-row input[type="range"] { flex: 1; min-width: 0; accent-color: var(--accent); height: 28px; }
+input[type="number"], select {
+  font: inherit; font-weight: 600; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-height: 44px;
+}
+input[type="number"] { width: 9.5rem; text-align: right; }
+select { width: 100%; }
+.check { display: flex; gap: 10px; align-items: center; padding-top: 14px; border-top: 1px solid var(--line); margin-bottom: 18px; }
+.check input { width: 22px; height: 22px; accent-color: var(--accent); }
+.check label { font-weight: 600; margin: 0; }
+
+.results h2 { margin-bottom: 4px; }
+.big { font: 700 clamp(2.1rem, 6vw, 3.1rem)/1.1 var(--serif); letter-spacing: -0.02em; color: var(--accent); margin: 4px 0 16px; font-variant-numeric: tabular-nums; }
+.bar { display: flex; height: 18px; border-radius: 9px; overflow: hidden; background: var(--line); margin-bottom: 10px; }
+.bar span { display: block; height: 100%; min-width: 0; transition: width 0.25s ease; }
+.bar [hidden] { display: none; }
+#segDeposits { background: var(--c-deposit); }
+#segGain { background: var(--c-gain); }
+#segWithdrawn { background: var(--c-payout); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 18px; font-size: 0.93rem; color: var(--muted); }
+.legend li::before {
+  content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px;
+  background: var(--sw, var(--c-deposit));
+}
+.legend [data-sw="gain"]::before { --sw: var(--c-gain); }
+.legend [data-sw="payout"]::before { --sw: var(--c-payout); }
+.legend [hidden] { display: none; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 0; }
+.stats div { border-top: 1px solid var(--line); padding-top: 8px; }
+.stats [hidden] { display: none; }
+.stats dt { font-size: 0.92rem; color: var(--muted); }
+.stats dd { margin: 2px 0 0; font-weight: 700; font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+
+.chart-panel { margin-top: 24px; }
+.chart-box { position: relative; }
+.chart-tip {
+  position: absolute; pointer-events: none; z-index: 2; background: var(--ink); color: var(--bg);
+  padding: 8px 10px; border-radius: 6px; font-size: 0.88rem; line-height: 1.45; white-space: nowrap;
+}
+.chart-box canvas { display: block; touch-action: pan-y; }
+details.table-details { margin-top: 14px; }
+details.table-details summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+details.table-details .table-wrap { max-height: 360px; overflow: auto; margin-top: 8px; }
+
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Sidfot */
+.site-footer { border-top: 1px solid var(--line); background: var(--surface); margin-top: 48px; padding-block: 28px; font-size: 0.95rem; }
+.site-footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 14px; }
+.site-footer p { color: var(--muted); max-width: 50rem; margin-bottom: 0.6em; }
+
+@media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+
+/* Tillägg: nav med fler sidor, verktygskort, sidfot i kolumner */
+[hidden] { display: none !important; }
+.card-links.tools { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.card-links.tools a { padding: 22px; }
+.card-links.tools strong { font-size: 1.3rem; margin-bottom: 6px; }
+.card-links.tools span { font-size: 1rem; }
+.legend [data-sw="s1"]::before { --sw: var(--s1); }
+.legend [data-sw="s2"]::before { --sw: var(--s2); }
+.legend [data-sw="s3"]::before { --sw: var(--s3); }
+.field-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.field-grid .field { margin-bottom: 0; }
+.field-grid input[type="number"] { width: 100%; }
+.field-grid label { font-size: 0.95rem; }
+.scenarios { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 6px 0 18px; }
+.scenarios div { border-top: 4px solid var(--sc, var(--accent)); padding-top: 8px; }
+.scenarios [data-sc="1"] { --sc: var(--s1); }
+.scenarios [data-sc="2"] { --sc: var(--s2); }
+.scenarios [data-sc="3"] { --sc: var(--s3); }
+.scenarios dt { font-size: 0.92rem; color: var(--muted); }
+.scenarios dd { margin: 2px 0 0; font: 700 1.45rem/1.2 var(--serif); font-variant-numeric: tabular-nums; }
+.foot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 22px; margin-bottom: 18px; }
+.foot-grid h2 { font: 700 1rem/1.3 var(--sans); margin: 0 0 8px; letter-spacing: 0; }
+.foot-grid ul { display: block; margin: 0; }
+.foot-grid li { margin-bottom: 4px; }
+.tools-block { margin-top: 8px; }
+
+.calc > *, .panel { min-width: 0; }
+.prose, .panel { overflow-wrap: break-word; }
+.prose a, .site-footer a { overflow-wrap: anywhere; }
+
+/* Tillägg för sidorna om sparränta och bolån */
+.text-table th, .text-table td { text-align: left; vertical-align: top; font-variant-numeric: normal; }
+.text-table tbody th { font-weight: 700; }
+</style>
+<!-- Cookie-samtycke och Google Analytics. Mät-ID fylls i i assets/cookie-consent.js. -->
+<script src="assets/cookie-consent.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#innehall">Hoppa till innehållet</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="index.html">Räntakalkylatorn</a>
+<nav class="site-nav" aria-label="Huvudmeny"><ul>
+<li><a href="index.html">Start</a></li>
+<li><a href="sparkalkylator.html">Sparkalkylator</a></li>
+<li><a href="isk-skattekalkylator.html">ISK-skatt</a></li>
+<li><a href="sparmalskalkylator.html">Sparmål</a></li>
+<li><a href="tillvaxtkalkylator.html">Tillväxt</a></li>
+<li><a href="sparkonto.html">Sparränta</a></li>
+<li><a href="bolan.html" aria-current="page">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="guider.html">Guider</a></li>
+<li><a href="om-oss.html">Om oss</a></li>
+</ul></nav>
+</div>
+</header>
+<main id="innehall">
+<div class="wrap page-head">
+<h1>Bolån: kontantinsats, amortering och ränta</h1>
+<p class="lede">Ett bolån är ett lån där bostaden är säkerhet. Här förklarar vi hur kontantinsats, belåningsgrad och amortering fungerar efter de regler som gäller sedan 1 april 2026, och vad du ska titta på i bolåneräntan.</p>
+<p class="meta">Senast uppdaterad 11 oktober 2026. Illustration, inte rådgivning.</p>
+</div><div class="wrap calc">
+<form class="panel" id="calcForm" autocomplete="off" novalidate>
+<h2>Ditt bolån</h2>
+<fieldset>
+<legend class="visually-hidden">Inställningar för bolånet</legend>
+<div class="field">
+<label for="valueInput">Bostadens värde (kr)</label>
+<div class="field-row"><input type="number" id="valueInput" min="0" max="1000000000" step="50000" value="3000000" inputmode="decimal"></div>
+</div>
+<div class="field">
+<label for="loanInput">Lånebelopp (kr)</label>
+<div class="field-row"><input type="number" id="loanInput" min="0" max="1000000000" step="50000" value="2400000" inputmode="decimal"></div>
+</div>
+<div class="field">
+<label for="rateInput">Ränta (% per år)</label>
+<div class="field-row"><input type="number" id="rateInput" min="0" max="100" step="0.1" value="3" inputmode="decimal"></div>
+</div>
+</fieldset>
+</form>
+
+<div>
+<section class="panel results" aria-labelledby="res-h">
+<h2 id="res-h">Resultat</h2>
+<p class="meta">Ränta och amortering per månad</p>
+<p class="big" id="resTotal">–</p>
+<dl class="stats">
+<div><dt>Belåningsgrad</dt><dd id="resLtv">–</dd></div>
+<div><dt>Krav på amortering</dt><dd id="resPct">–</dd></div>
+<div><dt>Ränta per månad (före ränteavdrag)</dt><dd id="resInterest">–</dd></div>
+<div><dt>Amortering per månad (minst)</dt><dd id="resAmort">–</dd></div>
+</dl>
+<p class="meta" id="resMsg" role="status" aria-live="polite"></p>
+<p class="meta">Förenklad beräkning för första månaden. Den tar inte hänsyn till avgifter, ränteavdrag eller bankens egen kreditprövning. Se <a href="metod.html">Så räknar kalkylatorerna</a>.</p>
+</section>
+</div>
+</div><div class="wrap"><div class="prose">
+
+<h2>Så fungerar ett bolån</h2>
+<p>Du lånar pengar av en bank för att köpa en bostad, och banken tar pant i bostaden. Du betalar ränta på hela lånet och amorterar, alltså betalar av, en del av skulden över tid. Lånet delas ofta upp i flera delar med olika räntor och bindningstider.</p>
+<p>Ett viktigt begrepp är <strong>belåningsgraden</strong>. Den visar hur stor del av bostadens värde som är lånad: lånet delat med bostadens värde.</p>
+<div class="note"><p><strong>Exempel:</strong> Bostaden är värd 3&nbsp;000&nbsp;000&nbsp;kronor och du lånar 2&nbsp;400&nbsp;000&nbsp;kronor. Belåningsgraden är 80&nbsp;procent.</p></div>
+
+<h2>Kontantinsats och bolånetak</h2>
+<p>För lån som tas från och med 1 april 2026 får du låna högst 90&nbsp;procent av bostadens marknadsvärde när du köper bostaden. Det betyder att kontantinsatsen är minst 10&nbsp;procent. Före 1 april 2026 var taket 85&nbsp;procent och kontantinsatsen minst 15&nbsp;procent.</p>
+<p>Om du vill öka lånet senare på samma bostad, ett så kallat tilläggslån, får belåningsgraden vara högst 80&nbsp;procent.</p>
+<div class="note"><p><strong>Exempel:</strong> Vid ett köp för 3&nbsp;000&nbsp;000&nbsp;kronor är kontantinsatsen minst 300&nbsp;000&nbsp;kronor och lånet högst 2&nbsp;700&nbsp;000&nbsp;kronor.</p></div>
+<p>Banken gör också en egen kreditprövning av din ekonomi. Du får därför inte automatiskt låna upp till taket. Har du inte kontantinsatsen än kan du räkna ut hur mycket du behöver spara i <a href="sparmalskalkylator.html">sparmålskalkylatorn</a>.</p>
+
+<h2>Amorteringskrav</h2>
+<p>Hur mycket du måste amortera beror på belåningsgraden. Procentsatsen räknas på lånebeloppet.</p>
+<div class="table-wrap"><table class="text-table">
+<caption>Amorteringskrav per år sedan 1 april 2026</caption>
+<thead><tr><th scope="col">Belåningsgrad</th><th scope="col">Minsta amortering per år</th></tr></thead>
+<tbody>
+<tr><td>Över 70&nbsp;procent</td><td>2&nbsp;procent av lånet</td></tr>
+<tr><td>Över 50 men högst 70&nbsp;procent</td><td>1&nbsp;procent av lånet</td></tr>
+<tr><td>50&nbsp;procent eller lägre</td><td>Inget krav</td></tr>
+</tbody>
+</table></div>
+<div class="note"><p><strong>Exempel:</strong> Med ett lån på 2&nbsp;400&nbsp;000&nbsp;kronor och en belåningsgrad på 80&nbsp;procent är kravet 2&nbsp;procent. Det blir 48&nbsp;000&nbsp;kronor per år, alltså 4&nbsp;000&nbsp;kronor i månaden.</p></div>
+<p>Det skärpta amorteringskravet, som gav ytterligare 1&nbsp;procent för dig med skulder över 4,5 gånger bruttoårsinkomsten, togs bort 1 april 2026. Enligt regeringen upphör kravet inte automatiskt för lån som redan omfattas av det. Har du ett äldre lån bör du därför kontakta din bank.</p>
+
+<h2>Bolåneräntan</h2>
+<ul>
+<li><strong>Rörlig ränta</strong> ändras med marknaden och kan ändras ofta.</li>
+<li><strong>Bunden ränta</strong> ligger fast under den bindningstid du väljer, till exempel ett till fem år. Bryter du bindningstiden i förtid kan banken ta betalt för det.</li>
+<li><strong>Listränta och snittränta:</strong> Listräntan är bankens utgångspris. Många kunder får en lägre ränta genom rabatt eller förhandling, och snitträntan visar vad bankens kunder i genomsnitt betalar.</li>
+<li><strong>Styrräntan</strong> från Riksbanken påverkar bolåneräntorna, men varje bank bestämmer sin egen ränta.</li>
+</ul>
+<p>Det finns inget svar som passar alla på om rörlig eller bunden ränta är bäst. Rörlig ränta kan bli både billigare och dyrare. Bunden ränta ger förutsägbarhet, men du kan inte följa med om marknadsräntorna sjunker.</p>
+
+<h2>Vad ett bolån kostar</h2>
+<p>Räntekostnaden per år är ungefär lånebeloppet gånger räntan. Delar du med 12 får du kostnaden per månad.</p>
+<div class="note"><p><strong>Exempel:</strong> Ett lån på 2&nbsp;400&nbsp;000&nbsp;kronor med 3&nbsp;procent ränta kostar 72&nbsp;000&nbsp;kronor i ränta per år, alltså 6&nbsp;000&nbsp;kronor per månad, före ränteavdrag.</p></div>
+<p>Utöver ränta och amortering tillkommer driftskostnader, som avgift för bostadsrätt eller el, värme, försäkring och underhåll för hus. Vid köpet finns också kostnader som lagfart och pantbrev för hus, eller pantsättningsavgift för bostadsrätt.</p>
+
+<h2>Ränteavdrag</h2>
+<p>Räntekostnader på bolån kan ge skattereduktion. Om dina räntekostnader är större än dina kapitalintäkter får du 30&nbsp;procent av underskottet i skattereduktion, upp till 100&nbsp;000&nbsp;kronor. Den del som överstiger 100&nbsp;000&nbsp;kronor ger 21&nbsp;procent. För att få reduktionen behöver du ha tillräckligt med skatt att dra av mot. Skatteregler kan ändras, så kontrollera aktuella villkor hos Skatteverket.</p>
+
+<h2>Så jämför du bolåneräntor</h2>
+<ul>
+<li>Jämför snittränta och inte bara listränta.</li>
+<li>Titta på bindningstid och vad det kostar att bryta den.</li>
+<li>Kolla om räntan är kopplad till villkor, till exempel att du ska ha andra tjänster hos banken.</li>
+<li>Räkna på den totala kostnaden: ränta, amortering och eventuella avgifter.</li>
+<li>Fråga flera banker. Räntan går ofta att förhandla.</li>
+</ul>
+<div class="note"><p>Bolåneräntorna ändras ofta. Den här sidan visar inga aktuella räntor, så kontrollera alltid räntan och villkoren hos banken innan du bestämmer dig.</p></div>
+
+<h2>Vanliga frågor</h2>
+<h3>Hur stor kontantinsats behöver jag?</h3>
+<p>Enligt reglerna sedan 1 april 2026 minst 10&nbsp;procent av bostadens värde vid köp. Banken kan kräva mer utifrån din ekonomi.</p>
+<h3>Måste jag amortera?</h3>
+<p>Det beror på belåningsgraden. Över 70&nbsp;procent ska du amortera minst 2&nbsp;procent per år, över 50&nbsp;procent minst 1&nbsp;procent, och är belåningsgraden 50&nbsp;procent eller lägre finns inget krav.</p>
+<h3>Vad är ett bolånelöfte?</h3>
+<p>Ett besked från banken om hur mycket du kan låna. Det gäller under en begränsad tid och är ingen garanti för att banken godkänner det slutliga lånet.</p>
+<h3>Får jag låna mer på bostaden senare?</h3>
+<p>Ja, med ett tilläggslån. Belåningsgraden får då vara högst 80&nbsp;procent av bostadens värde.</p>
+
+<h2>Källor</h2>
+<ul>
+<li><a href="https://regeringen.se/pressmeddelanden/2026/03/nya-lagandringar-ska-ge-fler-mojlighet-att-aga-sin-bostad/" rel="noopener">Regeringen: nya regler för bolånetak och amorteringskrav från 1 april 2026</a></li>
+<li><a href="https://skatteverket.se/ranteavdrag" rel="noopener">Skatteverket: avdrag för ränteutgifter</a></li>
+<li><a href="https://www.fi.se" rel="noopener">Finansinspektionen</a></li>
+<li><a href="https://www.riksbank.se" rel="noopener">Riksbanken: styrräntan</a></li>
+</ul>
+
+</div></div><div class="wrap tools-block"><h2>Läs mer</h2>
+<ul class="card-links">
+<li><a href="sparkonto.html"><strong>Sparränta och sparkonton</strong><span>Rörlig och fast ränta, skatt på räntan och insättningsgaranti.</span></a></li>
+<li><a href="ranta-pa-ranta.html"><strong>Ränta på ränta</strong><span>Formeln, räkneexempel och varför tiden betyder mest.</span></a></li>
+<li><a href="ordlista.html"><strong>Ordlista</strong><span>Begreppen förklarade på vanlig svenska.</span></a></li>
+</ul>
+</div><div class="wrap tools-block"><h2>Fler kalkylatorer</h2>
+<ul class="card-links">
+<li><a href="sparmalskalkylator.html"><strong>Spara till ett mål</strong><span>Hur mycket behöver du lägga undan varje månad för att nå till exempel 500&nbsp;000&nbsp;kr?</span></a></li>
+<li><a href="sparkalkylator.html"><strong>Räkna ditt sparande</strong><span>Se hur startkapital, månadssparande och utdelningar växer med ränta på ränta.</span></a></li>
+</ul>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="foot-grid">
+<div><h2>Kalkylatorer</h2><ul>
+<li><a href="sparkalkylator.html">Räkna ditt sparande</a></li>
+<li><a href="isk-skattekalkylator.html">Förstå ISK-skatten</a></li>
+<li><a href="sparmalskalkylator.html">Spara till ett mål</a></li>
+<li><a href="tillvaxtkalkylator.html">Jämför avkastning</a></li>
+</ul></div>
+<div><h2>Guider</h2><ul>
+<li><a href="isk-forklarad.html">ISK förklarad</a></li>
+<li><a href="ranta-pa-ranta.html">Ränta på ränta</a></li>
+<li><a href="utdelning-eller-kursutveckling.html">Utdelning eller kursutveckling</a></li>
+<li><a href="isk-och-schablonskatt.html">ISK och schablonskatt 2026</a></li>
+<li><a href="sparkonto.html">Sparränta och sparkonton</a></li>
+<li><a href="bolan.html">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="ordlista.html">Ordlista</a></li>
+</ul></div>
+<div><h2>Om webbplatsen</h2><ul>
+<li><a href="om-oss.html">Om webbplatsen</a></li>
+<li><a href="metod.html">Så räknar kalkylatorerna</a></li>
+<li><a href="kontakt.html">Kontakt</a></li>
+<li><a href="integritetspolicy.html">Integritetspolicy</a></li>
+<li><a href="friskrivning.html">Friskrivning och villkor</a></li>
+<li><button type="button" class="cc-link" data-cookie-settings>Cookieinställningar</button></li>
+</ul></div>
+</div>
+<p>Innehållet på Räntakalkylatorn är allmän information och exempel. Det är inte investeringsrådgivning, skatterådgivning eller en uppmaning att köpa eller sälja något. Historisk avkastning är ingen garanti för framtida avkastning, och du kan förlora pengar när du sparar i aktier och fonder.</p>
+<p>Senast uppdaterad 11 oktober 2026. &copy; 2026 TP.</p>
+</div>
+</footer>
+<script>
+(function () {
+  var fmt0 = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 0 });
+  var fmt1 = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 1 });
+  function el(id) { return document.getElementById(id); }
+  function num(id) { var v = el(id).value; return v === '' ? NaN : Number(v); }
+  function setText(id, t) { el(id).textContent = t; }
+  function calc(V, L, rate) {
+    var ltv = L / V * 100;
+    var pct = ltv > 70 ? 2 : (ltv > 50 ? 1 : 0);
+    var interest = L * rate / 12;
+    var amort = L * pct / 100 / 12;
+    return { ltv: ltv, pct: pct, interest: interest, amort: amort, total: interest + amort };
+  }
+  function update() {
+    var V = num('valueInput'), L = num('loanInput'), rPct = num('rateInput');
+    var ids = ['resTotal', 'resLtv', 'resPct', 'resInterest', 'resAmort'];
+    var ok = isFinite(V) && V > 0 && V <= 1e10 && isFinite(L) && L >= 0 && L <= 1e10 && isFinite(rPct) && rPct >= 0 && rPct <= 100;
+    if (!ok) {
+      ids.forEach(function (id) { setText(id, '–'); });
+      setText('resMsg', 'Fyll i bostadens värde, lånebelopp och en ränta mellan 0 och 100 procent.');
+      return;
+    }
+    var r = calc(V, L, rPct / 100);
+    setText('resTotal', fmt0.format(r.total) + ' kr');
+    setText('resLtv', fmt1.format(r.ltv) + ' %');
+    setText('resPct', r.pct === 0 ? 'Inget krav' : r.pct + ' % per år');
+    setText('resInterest', fmt0.format(r.interest) + ' kr');
+    setText('resAmort', fmt0.format(r.amort) + ' kr');
+    if (r.ltv > 90) {
+      setText('resMsg', 'Lånet ligger över bolånetaket på 90 procent vid köp (80 procent för tilläggslån). Beräkningen är bara ett räkneexempel.');
+    } else if (r.ltv > 80) {
+      setText('resMsg', 'Ett tilläggslån på en bostad du redan äger får vara högst 80 procent av värdet.');
+    } else {
+      setText('resMsg', '');
+    }
+  }
+  var form = el('calcForm');
+  form.addEventListener('input', update);
+  form.addEventListener('change', update);
+  form.addEventListener('submit', function (e) { e.preventDefault(); });
+  update();
+})();
+</script>
+</body>
+</html>

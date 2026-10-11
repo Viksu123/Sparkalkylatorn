@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sparmålskalkylator: hur mycket måste jag spara? | Räntakalkylatorn</title>
+<meta name="description" content="Räkna ut hur mycket du behöver spara per månad för att nå ditt sparmål, till exempel 500 000 kr eller en miljon.">
+<link rel="canonical" href="https://sparkalkylatorn.se/sparmalskalkylator.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a7358">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sv_SE">
+<meta property="og:site_name" content="Räntakalkylatorn">
+<meta property="og:title" content="Sparmålskalkylator: hur mycket måste jag spara? | Räntakalkylatorn">
+<meta property="og:description" content="Räkna ut hur mycket du behöver spara per månad för att nå ditt sparmål, till exempel 500 000 kr eller en miljon.">
+<meta property="og:url" content="https://sparkalkylatorn.se/sparmalskalkylator.html">
+<style>
+:root {
+  --bg: #f3f6f4;
+  --surface: #ffffff;
+  --ink: #12262b;
+  --muted: #53666b;
+  --line: #d3dcd9;
+  --accent: #0a7358;
+  --accent-ink: #ffffff;
+  --note: #e7f1ed;
+  --c-deposit: #6f858b;
+  --c-gain: #0a7358;
+  --c-payout: #b9770e;
+  --s1: #b9770e;
+  --s2: #0a7358;
+  --s3: #2a5db8;
+  --focus: #1456c8;
+  --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f191c;
+    --surface: #162328;
+    --ink: #e8efee;
+    --muted: #9db0b4;
+    --line: #2a3c41;
+    --accent: #3fd6a6;
+    --accent-ink: #082018;
+    --note: #1a2e30;
+    --c-deposit: #8aa0a6;
+    --c-gain: #3fd6a6;
+    --c-payout: #e9a93c;
+    --s1: #e9a93c;
+    --s2: #3fd6a6;
+    --s3: #7fb0ff;
+    --focus: #8ab4ff;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 1.0625rem/1.65 var(--sans);
+}
+img, svg, canvas { max-width: 100%; }
+a { color: var(--accent); text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+
+.skip {
+  position: absolute; left: 12px; top: -60px; z-index: 10;
+  background: var(--accent); color: var(--accent-ink); padding: 10px 14px; border-radius: 6px;
+}
+.skip:focus { top: 12px; }
+
+.wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
+
+/* Sidhuvud */
+.site-header { border-bottom: 1px solid var(--line); background: var(--surface); }
+.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; padding-block: 14px; }
+.brand { font: 700 1.25rem/1.2 var(--serif); color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.site-nav ul { display: flex; flex-wrap: wrap; gap: 4px 4px; list-style: none; margin: 0; padding: 0; }
+.site-nav a {
+  display: inline-block; padding: 6px 10px; border-radius: 6px; color: var(--ink);
+  text-decoration: none; font-size: 0.97rem; font-weight: 500;
+}
+.site-nav a:hover { background: var(--note); }
+.site-nav a[aria-current="page"] { background: var(--note); color: var(--accent); font-weight: 700; }
+
+/* Rubriker och text */
+h1, h2, h3 { font-family: var(--serif); line-height: 1.2; letter-spacing: -0.015em; margin: 0 0 0.5em; }
+h1 { font-size: clamp(1.9rem, 4.6vw, 2.8rem); font-weight: 700; }
+h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-top: 2.2em; }
+h3 { font-size: 1.2rem; margin-top: 1.7em; }
+p, ul, ol { margin: 0 0 1.1em; }
+.lede { font-size: 1.2rem; color: var(--muted); max-width: 46rem; }
+.meta { color: var(--muted); font-size: 0.92rem; }
+
+.page-head { padding-block: 40px 8px; }
+.prose { max-width: 44rem; padding-bottom: 40px; }
+.prose li { margin-bottom: 0.4em; }
+.prose code, .formula {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.95em;
+}
+.formula {
+  display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: 14px 16px; margin: 0 0 1.2em; overflow-x: auto; white-space: nowrap;
+}
+.note {
+  background: var(--note); border-left: 4px solid var(--accent); border-radius: 6px;
+  padding: 14px 16px; margin: 0 0 1.2em;
+}
+.note p:last-child { margin-bottom: 0; }
+
+.table-wrap { overflow-x: auto; margin: 0 0 1.3em; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.97rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; }
+thead th { font-weight: 700; background: var(--note); position: sticky; top: 0; }
+tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+caption { text-align: left; padding: 10px 12px; font-weight: 700; }
+
+dl.glossary dt { font-family: var(--serif); font-weight: 700; font-size: 1.15rem; margin-top: 1.4em; }
+dl.glossary dd { margin: 0.2em 0 0; }
+
+.card-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; padding: 0; list-style: none; margin: 0 0 2em; }
+.card-links a {
+  display: block; height: 100%; padding: 18px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; text-decoration: none; color: var(--ink);
+}
+.card-links a:hover { border-color: var(--accent); }
+.card-links strong { display: block; font: 700 1.1rem/1.3 var(--serif); margin-bottom: 4px; color: var(--accent); }
+.card-links span { color: var(--muted); font-size: 0.96rem; }
+
+/* Kalkylator */
+.calc { display: grid; gap: 24px; margin-block: 24px 36px; }
+@media (min-width: 900px) { .calc { grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); align-items: start; } }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+.panel h2 { margin: 0 0 14px; font-size: 1.25rem; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+.field { margin-bottom: 18px; }
+.field label { display: block; font-weight: 600; margin-bottom: 6px; }
+.field .hint { display: block; font-weight: 400; font-size: 0.88rem; color: var(--muted); }
+.field-row { display: flex; align-items: center; gap: 14px; }
+.field-row input[type="range"] { flex: 1; min-width: 0; accent-color: var(--accent); height: 28px; }
+input[type="number"], select {
+  font: inherit; font-weight: 600; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-height: 44px;
+}
+input[type="number"] { width: 9.5rem; text-align: right; }
+select { width: 100%; }
+.check { display: flex; gap: 10px; align-items: center; padding-top: 14px; border-top: 1px solid var(--line); margin-bottom: 18px; }
+.check input { width: 22px; height: 22px; accent-color: var(--accent); }
+.check label { font-weight: 600; margin: 0; }
+
+.results h2 { margin-bottom: 4px; }
+.big { font: 700 clamp(2.1rem, 6vw, 3.1rem)/1.1 var(--serif); letter-spacing: -0.02em; color: var(--accent); margin: 4px 0 16px; font-variant-numeric: tabular-nums; }
+.bar { display: flex; height: 18px; border-radius: 9px; overflow: hidden; background: var(--line); margin-bottom: 10px; }
+.bar span { display: block; height: 100%; min-width: 0; transition: width 0.25s ease; }
+.bar [hidden] { display: none; }
+#segDeposits { background: var(--c-deposit); }
+#segGain { background: var(--c-gain); }
+#segWithdrawn { background: var(--c-payout); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 18px; font-size: 0.93rem; color: var(--muted); }
+.legend li::before {
+  content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px;
+  background: var(--sw, var(--c-deposit));
+}
+.legend [data-sw="gain"]::before { --sw: var(--c-gain); }
+.legend [data-sw="payout"]::before { --sw: var(--c-payout); }
+.legend [hidden] { display: none; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 0; }
+.stats div { border-top: 1px solid var(--line); padding-top: 8px; }
+.stats [hidden] { display: none; }
+.stats dt { font-size: 0.92rem; color: var(--muted); }
+.stats dd { margin: 2px 0 0; font-weight: 700; font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+
+.chart-panel { margin-top: 24px; }
+.chart-box { position: relative; }
+.chart-tip {
+  position: absolute; pointer-events: none; z-index: 2; background: var(--ink); color: var(--bg);
+  padding: 8px 10px; border-radius: 6px; font-size: 0.88rem; line-height: 1.45; white-space: nowrap;
+}
+.chart-box canvas { display: block; touch-action: pan-y; }
+details.table-details { margin-top: 14px; }
+details.table-details summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+details.table-details .table-wrap { max-height: 360px; overflow: auto; margin-top: 8px; }
+
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Sidfot */
+.site-footer { border-top: 1px solid var(--line); background: var(--surface); margin-top: 48px; padding-block: 28px; font-size: 0.95rem; }
+.site-footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 14px; }
+.site-footer p { color: var(--muted); max-width: 50rem; margin-bottom: 0.6em; }
+
+@media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+
+/* Tillägg: nav med fler sidor, verktygskort, sidfot i kolumner */
+[hidden] { display: none !important; }
+.card-links.tools { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.card-links.tools a { padding: 22px; }
+.card-links.tools strong { font-size: 1.3rem; margin-bottom: 6px; }
+.card-links.tools span { font-size: 1rem; }
+.legend [data-sw="s1"]::before { --sw: var(--s1); }
+.legend [data-sw="s2"]::before { --sw: var(--s2); }
+.legend [data-sw="s3"]::before { --sw: var(--s3); }
+.field-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.field-grid .field { margin-bottom: 0; }
+.field-grid input[type="number"] { width: 100%; }
+.field-grid label { font-size: 0.95rem; }
+.scenarios { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 6px 0 18px; }
+.scenarios div { border-top: 4px solid var(--sc, var(--accent)); padding-top: 8px; }
+.scenarios [data-sc="1"] { --sc: var(--s1); }
+.scenarios [data-sc="2"] { --sc: var(--s2); }
+.scenarios [data-sc="3"] { --sc: var(--s3); }
+.scenarios dt { font-size: 0.92rem; color: var(--muted); }
+.scenarios dd { margin: 2px 0 0; font: 700 1.45rem/1.2 var(--serif); font-variant-numeric: tabular-nums; }
+.foot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 22px; margin-bottom: 18px; }
+.foot-grid h2 { font: 700 1rem/1.3 var(--sans); margin: 0 0 8px; letter-spacing: 0; }
+.foot-grid ul { display: block; margin: 0; }
+.foot-grid li { margin-bottom: 4px; }
+.tools-block { margin-top: 8px; }
+
+.calc > *, .panel { min-width: 0; }
+.prose, .panel { overflow-wrap: break-word; }
+.prose a, .site-footer a { overflow-wrap: anywhere; }
+</style>
+<!-- Cookie-samtycke och Google Analytics. Mät-ID fylls i i assets/cookie-consent.js. -->
+<script src="assets/cookie-consent.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#innehall">Hoppa till innehållet</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="index.html">Räntakalkylatorn</a>
+<nav class="site-nav" aria-label="Huvudmeny"><ul>
+<li><a href="index.html">Start</a></li>
+<li><a href="sparkalkylator.html">Sparkalkylator</a></li>
+<li><a href="isk-skattekalkylator.html">ISK-skatt</a></li>
+<li><a href="sparmalskalkylator.html" aria-current="page">Sparmål</a></li>
+<li><a href="tillvaxtkalkylator.html">Tillväxt</a></li>
+<li><a href="sparkonto.html">Sparränta</a></li>
+<li><a href="bolan.html">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="guider.html">Guider</a></li>
+<li><a href="om-oss.html">Om oss</a></li>
+</ul></nav>
+</div>
+</header>
+<main id="innehall">
+<div class="wrap page-head">
+<h1>Sparmålskalkylator: hur mycket måste jag spara per månad?</h1>
+<p class="lede">Ange hur mycket du vill ha och hur lång tid du har, så räknar kalkylatorn ut vad du behöver lägga undan varje månad.</p>
+<p class="meta">Senast uppdaterad 10 oktober 2026. Illustration, inte rådgivning.</p>
+</div><div class="wrap calc">
+<form class="panel" id="calcForm" autocomplete="off" novalidate>
+<h2>Ditt sparmål</h2>
+<fieldset>
+<legend class="visually-hidden">Inställningar för sparmålet</legend>
+<div class="field">
+<label for="goalInput">Sparmål (kr)<span class="hint">Så mycket vill du ha i slutet</span></label>
+<div class="field-row"><input type="range" id="goalRange" min="0" max="5000000" step="25000" value="500000" aria-label="Sparmål (kr), reglage"><input type="number" id="goalInput" min="0" max="1000000000" step="1000" value="500000" inputmode="decimal"></div>
+</div>
+<div class="field">
+<label for="startInput">Startkapital (kr)<span class="hint">Det du redan har sparat</span></label>
+<div class="field-row"><input type="range" id="startRange" min="0" max="1000000" step="5000" value="0" aria-label="Startkapital (kr), reglage"><input type="number" id="startInput" min="0" max="1000000000" step="1000" value="0" inputmode="decimal"></div>
+</div>
+<div class="field">
+<label for="yearsInput">Sparhorisont (år)</label>
+<div class="field-row"><input type="range" id="yearsRange" min="1" max="50" step="1" value="10" aria-label="Sparhorisont (år), reglage"><input type="number" id="yearsInput" min="1" max="50" step="1" value="10" inputmode="decimal"></div>
+</div>
+<div class="field">
+<label for="rateInput">Förväntad avkastning (% per år)<span class="hint">Effektiv årsavkastning efter avgifter</span></label>
+<div class="field-row"><input type="range" id="rateRange" min="0" max="12" step="0.5" value="5" aria-label="Förväntad avkastning (% per år), reglage"><input type="number" id="rateInput" min="0" max="20" step="0.1" value="5" inputmode="decimal"></div>
+</div>
+</fieldset>
+</form>
+
+<div>
+<section class="panel results" aria-labelledby="res-h">
+<h2 id="res-h">Resultat</h2>
+<p class="meta" id="resMonthlyLabel"></p>
+<p class="big" id="resMonthly">0 kr</p>
+<div class="bar" role="img" aria-label="Fördelning mellan dina insättningar och avkastning">
+<span id="segDeposits"></span><span id="segGain"></span>
+</div>
+<ul class="legend">
+<li>Dina insättningar</li>
+<li data-sw="gain">Avkastning</li>
+</ul>
+<dl class="stats">
+<div><dt>Totalt insatt (inklusive startkapital)</dt><dd id="resDeposits">0 kr</dd></div>
+<div><dt>Avkastning</dt><dd id="resGain">0 kr</dd></div>
+<div><dt>Avkastningens andel av slutsumman</dt><dd id="resShare">–</dd></div>
+<div><dt>Värde vid slutet</dt><dd id="resFinal">0 kr</dd></div>
+</dl>
+<p id="liveSummary" class="visually-hidden" role="status" aria-live="polite"></p>
+</section>
+
+<section class="panel chart-panel" aria-labelledby="chart-h">
+<h2 id="chart-h">Så växer sparandet</h2>
+<div class="chart-box">
+<canvas id="chart" role="img" aria-label="Diagram som visar hur värdet och dina insättningar växer för varje sparår."></canvas>
+<div class="chart-tip" id="chartTip" hidden></div>
+</div>
+<p class="meta">Grå linje: dina insättningar. Grön linje: sparandets värde. Rör vid diagrammet för exakta värden.</p>
+</section>
+
+<section class="panel chart-panel" aria-labelledby="mx-h">
+<h2 id="mx-h">Månadssparande vid olika tider och avkastning</h2>
+<div class="table-wrap"><table>
+<thead id="matrixHead"></thead>
+<tbody id="matrixBody"></tbody>
+</table></div>
+<p class="meta">Kronor per månad som krävs för ditt sparmål och startkapital.</p>
+</section>
+</div>
+</div><div class="wrap"><div class="prose">
+<h2>Så fungerar kalkylatorn</h2>
+<p>Du anger hur mycket du vill ha, hur lång tid du har och vilken avkastning du räknar med. Kalkylatorn räknar baklänges och visar vilket belopp du behöver sätta in i början av varje månad. Har du redan sparat något fyller du i det som startkapital, och det får växa med samma avkastning.</p>
+<p>Beloppet avrundas uppåt till hela kronor, så slutvärdet hamnar strax över målet. Beräkningen är densamma som i <a href="sparkalkylator.html">sparkalkylatorn</a>, fast i omvänd riktning. Formler och antaganden finns på sidan <a href="metod.html">Så räknar kalkylatorerna</a>.</p>
+
+<h2>Två exempel</h2>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Mål</th><th scope="col">Tid</th><th scope="col">Avkastning</th><th scope="col">Per månad</th></tr></thead>
+<tbody>
+<tr><th scope="row">500 000 kr</th><td>10 år</td><td>5 % per år</td><td>3 226 kr</td></tr>
+<tr><th scope="row">1 000 000 kr</th><td>20 år</td><td>7 % per år</td><td>1 960 kr</td></tr>
+</tbody></table></div>
+<p>I det första exemplet sätter du in totalt 387 120 kr under tio år, och resten av de 500 000 kr kommer från avkastning. Ju längre tid du har, desto större del av målet står avkastningen för, och desto mindre behöver du lägga undan varje månad.</p>
+
+<h2>Det här påverkar mest</h2>
+<ul>
+<li><strong>Tid.</strong> Att börja tidigare sänker månadsbeloppet mer än att hoppas på högre avkastning. Titta på tabellen ovan för att jämföra.</li>
+<li><strong>Avkastning.</strong> En lägre avkastning kräver ett högre månadssparande. Räkna gärna med flera nivåer och se vad som händer om det går sämre än du hoppas.</li>
+<li><strong>Startkapital.</strong> Det som redan finns får växa hela tiden och minskar kravet på månadssparandet.</li>
+</ul>
+
+<h2>Det här ingår inte</h2>
+<p>Skatt och avgifter är inte medräknade, och kalkylatorn räknar med en jämn avkastning varje år. I verkligheten varierar avkastningen, och sparmålet är i nominella kronor. Om du vill ha ett mål som håller sitt värde över tid kan du sätta ett högre mål eller en lägre avkastning för att ta höjd för inflationen.</p>
+
+<h2>Vanliga frågor</h2>
+<h3>Hur mycket måste jag spara för att nå en miljon?</h3>
+<p>Det beror på tid och avkastning. Med 7 % per år och 20 års sparande behöver du ungefär 1 960 kr per månad. Ändra värdena i kalkylatorn för att se din egen situation.</p>
+<h3>Vilken avkastning ska jag räkna med?</h3>
+<p>Det finns inget säkert svar. Aktiefonder har historiskt gett högre avkastning än räntesparande på lång sikt, men det garanterar ingenting framåt och risken är högre. Ett försiktigt val är att räkna med en lägre siffra än du hoppas på.</p>
+<h3>Vad händer om jag redan har sparat en del?</h3>
+<p>Fyll i det som startkapital. Är startkapitalet så stort att det ensamt når målet med den avkastning du valt visar kalkylatorn att du inte behöver spara något mer.</p>
+</div></div><div class="wrap tools-block"><h2>Läs mer</h2>
+<ul class="card-links">
+<li><a href="isk-forklarad.html"><strong>ISK förklarad</strong><span>Vad ett investeringssparkonto är, hur det skiljer sig från andra konton och när det passar.</span></a></li>
+<li><a href="ranta-pa-ranta.html"><strong>Ränta på ränta</strong><span>Formeln, räkneexempel och varför tiden betyder mest.</span></a></li>
+</ul>
+</div><div class="wrap tools-block"><h2>Fler kalkylatorer</h2>
+<ul class="card-links">
+<li><a href="sparkalkylator.html"><strong>Räkna ditt sparande</strong><span>Se hur startkapital, månadssparande och utdelningar växer med ränta på ränta.</span></a></li>
+<li><a href="isk-skattekalkylator.html"><strong>Förstå ISK-skatten</strong><span>Räkna ut din schablonskatt för 2026, med 300 000 kr skattefritt.</span></a></li>
+<li><a href="tillvaxtkalkylator.html"><strong>Jämför avkastning</strong><span>Se vad ett engångsbelopp blir värt vid olika avkastning och avgifter.</span></a></li>
+</ul>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="foot-grid">
+<div><h2>Kalkylatorer</h2><ul>
+<li><a href="sparkalkylator.html">Räkna ditt sparande</a></li>
+<li><a href="isk-skattekalkylator.html">Förstå ISK-skatten</a></li>
+<li><a href="sparmalskalkylator.html">Spara till ett mål</a></li>
+<li><a href="tillvaxtkalkylator.html">Jämför avkastning</a></li>
+</ul></div>
+<div><h2>Guider</h2><ul>
+<li><a href="isk-forklarad.html">ISK förklarad</a></li>
+<li><a href="ranta-pa-ranta.html">Ränta på ränta</a></li>
+<li><a href="utdelning-eller-kursutveckling.html">Utdelning eller kursutveckling</a></li>
+<li><a href="isk-och-schablonskatt.html">ISK och schablonskatt 2026</a></li>
+<li><a href="sparkonto.html">Sparränta och sparkonton</a></li>
+<li><a href="bolan.html">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="ordlista.html">Ordlista</a></li>
+</ul></div>
+<div><h2>Om webbplatsen</h2><ul>
+<li><a href="om-oss.html">Om webbplatsen</a></li>
+<li><a href="metod.html">Så räknar kalkylatorerna</a></li>
+<li><a href="kontakt.html">Kontakt</a></li>
+<li><a href="integritetspolicy.html">Integritetspolicy</a></li>
+<li><a href="friskrivning.html">Friskrivning och villkor</a></li>
+<li><button type="button" class="cc-link" data-cookie-settings>Cookieinställningar</button></li>
+</ul></div>
+</div>
+<p>Innehållet på Räntakalkylatorn är allmän information och exempel. Det är inte investeringsrådgivning, skatterådgivning eller en uppmaning att köpa eller sälja något. Historisk avkastning är ingen garanti för framtida avkastning, och du kan förlora pengar när du sparar i aktier och fonder.</p>
+<p>Senast uppdaterad 11 oktober 2026. &copy; 2026 TP.</p>
+</div>
+</footer>
+<script>
+/* Gemensamma hjälpfunktioner för alla kalkylatorer. Inga externa bibliotek. */
+(function (root) {
+  'use strict';
+  if (typeof document === 'undefined') { return; }
+
+  var nf = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 0 });
+  var pf = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 2 });
+
+  function $(id) { return document.getElementById(id); }
+  function kr(n) { return nf.format(Math.round(n)) + '\u00a0kr'; }
+  function num(n) { return nf.format(Math.round(n)); }
+  function pct(n) { return pf.format(n) + '\u00a0%'; }
+  function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
+  function compact(v) {
+    if (v >= 1e6) { return (v / 1e6).toLocaleString('sv-SE', { maximumFractionDigits: 1 }) + '\u00a0mn'; }
+    if (v >= 1e3) { return (v / 1e3).toLocaleString('sv-SE', { maximumFractionDigits: 0 }) + '\u00a0tkr'; }
+    return String(Math.round(v));
+  }
+
+  /* Läser ett fält (id + 'Input'), tomt eller ogiltigt värde blir 0 och allt hålls inom min/max. */
+  function readField(id) {
+    var el = $(id + 'Input');
+    var min = parseFloat(el.min), max = parseFloat(el.max);
+    var v = el.valueAsNumber;
+    if (isNaN(v)) { v = 0; }
+    if (!isNaN(min)) { v = Math.max(min, v); }
+    if (!isNaN(max)) { v = Math.min(max, v); }
+    return v;
+  }
+
+  /* Kopplar fält (och eventuella reglage) till en uppdateringsfunktion. */
+  function bindFields(names, update) {
+    names.forEach(function (name) {
+      var input = $(name + 'Input');
+      var range = $(name + 'Range');
+      if (range) {
+        range.addEventListener('input', function () { input.value = range.value; update(); });
+        input.addEventListener('input', function () {
+          if (!isNaN(input.valueAsNumber)) { range.value = input.value; }
+          update();
+        });
+      } else {
+        input.addEventListener('input', update);
+      }
+      // När fältet lämnas rättas ogiltiga värden till närmaste tillåtna värde.
+      input.addEventListener('change', function () {
+        input.value = String(readField(name));
+        if (range) { range.value = input.value; }
+        update();
+      });
+    });
+    var form = document.querySelector('form');
+    if (form) { form.addEventListener('submit', function (e) { e.preventDefault(); }); }
+  }
+
+  function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+  function niceMax(v) {
+    // Väljer ett jämnt tickavstånd så att fyra intervall ger runda axelvärden.
+    if (v <= 0) { return 4; }
+    var raw = v / 4;
+    var pow = Math.pow(10, Math.floor(Math.log10(raw)));
+    var n = raw / pow;
+    var step = n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10;
+    return step * pow * 4;
+  }
+
+  /* Linjediagram på canvas. render({ series: [{ values, color (CSS-variabel), width, dash, fill }], tipHtml(i) }) */
+  function createChart(canvas, tip) {
+    var ctx = canvas.getContext('2d');
+    var data = null, hover = -1, geo = null;
+
+    function draw() {
+      if (!data) { return; }
+      var wrap = canvas.parentElement;
+      var w = wrap.clientWidth;
+      var h = w < 520 ? 280 : 360;
+      var dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      var colMuted = cssVar('--muted'), colLine = cssVar('--line');
+      var pad = { l: w < 520 ? 52 : 64, r: 14, t: 14, b: 30 };
+      var pw = w - pad.l - pad.r, ph = h - pad.t - pad.b;
+      var n = data.series[0].values.length - 1;
+      var maxV = 0;
+      data.series.forEach(function (s) { s.values.forEach(function (v) { maxV = Math.max(maxV, v); }); });
+      var top = niceMax(maxV);
+      var X = function (i) { return pad.l + (n === 0 ? 0 : pw * i / n); };
+      var Y = function (v) { return pad.t + ph - ph * v / top; };
+
+      ctx.font = '12px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = colLine;
+      ctx.fillStyle = colMuted;
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'right';
+      for (var t = 0; t <= 4; t++) {
+        var val = top * t / 4, y = Math.round(Y(val)) + 0.5;
+        ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.stroke();
+        ctx.fillText(compact(val), pad.l - 8, y);
+      }
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      var stepX = Math.max(1, Math.ceil(n / (w < 520 ? 5 : 8)));
+      for (var i = 0; i <= n; i += stepX) { ctx.fillText(String(i), X(i), h - pad.b + 8); }
+
+      data.series.forEach(function (s) {
+        var color = cssVar(s.color);
+        var trace = function () {
+          ctx.beginPath();
+          s.values.forEach(function (v, idx) {
+            if (idx === 0) { ctx.moveTo(X(idx), Y(v)); } else { ctx.lineTo(X(idx), Y(v)); }
+          });
+        };
+        if (s.fill) {
+          trace();
+          ctx.lineTo(X(n), Y(0)); ctx.lineTo(X(0), Y(0)); ctx.closePath();
+          ctx.save(); ctx.globalAlpha = 0.14; ctx.fillStyle = color; ctx.fill(); ctx.restore();
+        }
+        trace();
+        ctx.setLineDash(s.dash || []);
+        ctx.lineWidth = s.width || 2;
+        ctx.strokeStyle = color;
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+        ctx.setLineDash([]);
+      });
+
+      if (hover >= 0 && hover <= n) {
+        var hx = X(hover);
+        ctx.strokeStyle = colMuted; ctx.lineWidth = 1; ctx.globalAlpha = 0.6;
+        ctx.beginPath(); ctx.moveTo(hx, pad.t); ctx.lineTo(hx, pad.t + ph); ctx.stroke();
+        ctx.globalAlpha = 1;
+        data.series.forEach(function (s) {
+          ctx.beginPath(); ctx.arc(hx, Y(s.values[hover]), 4, 0, Math.PI * 2);
+          ctx.fillStyle = cssVar(s.color); ctx.fill();
+        });
+      }
+      geo = { pad: pad, pw: pw, n: n, w: w };
+    }
+
+    function showTip(clientX) {
+      if (!data || !geo) { return; }
+      var rect = canvas.getBoundingClientRect();
+      var ratio = (clientX - rect.left - geo.pad.l) / geo.pw;
+      hover = clamp(Math.round(ratio * geo.n), 0, geo.n);
+      tip.innerHTML = data.tipHtml(hover);
+      tip.hidden = false;
+      var px = geo.pad.l + (geo.n === 0 ? 0 : geo.pw * hover / geo.n);
+      tip.style.left = clamp(px + 12, 4, geo.w - tip.offsetWidth - 4) + 'px';
+      tip.style.top = '12px';
+      draw();
+    }
+    function hideTip() { hover = -1; tip.hidden = true; draw(); }
+
+    canvas.addEventListener('pointermove', function (e) { showTip(e.clientX); });
+    canvas.addEventListener('pointerdown', function (e) { showTip(e.clientX); });
+    canvas.addEventListener('pointerleave', hideTip);
+    if (window.ResizeObserver) { new ResizeObserver(draw).observe(canvas.parentElement); }
+    else { window.addEventListener('resize', draw); }
+    if (window.matchMedia) {
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      if (mq.addEventListener) { mq.addEventListener('change', draw); }
+    }
+
+    return {
+      render: function (d) { data = d; hover = -1; tip.hidden = true; draw(); }
+    };
+  }
+
+  root.SK = { $: $, kr: kr, num: num, pct: pct, clamp: clamp, compact: compact,
+    readField: readField, bindFields: bindFields, createChart: createChart };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+/* Sparmålskalkylator: hur mycket behöver du spara per månad? Kräver lib.js. */
+(function (root) {
+  'use strict';
+
+  function monthlyRate(ratePct) { return Math.pow(1 + ratePct / 100, 1 / 12) - 1; }
+
+  // Insättning i början av varje månad, effektiv årsavkastning omräknad till månad.
+  function requiredMonthly(p) {
+    var N = Math.round(p.years) * 12;
+    var mg = monthlyRate(p.rate);
+    var growth = Math.pow(1 + mg, N);
+    var startValue = p.start * growth;
+    if (p.goal <= startValue) { return 0; }
+    var annuity = mg === 0 ? N : (growth - 1) / mg * (1 + mg);
+    return (p.goal - startValue) / annuity;
+  }
+
+  function plan(p, monthly) {
+    var mg = monthlyRate(p.rate);
+    var balance = p.start, deposits = p.start;
+    var rows = [{ year: 0, deposits: deposits, balance: balance }];
+    for (var y = 1; y <= Math.round(p.years); y++) {
+      for (var m = 0; m < 12; m++) { balance += monthly; deposits += monthly; balance *= 1 + mg; }
+      rows.push({ year: y, deposits: deposits, balance: balance });
+    }
+    return rows;
+  }
+
+  if (typeof module !== 'undefined' && module.exports) { module.exports = { requiredMonthly: requiredMonthly, plan: plan }; }
+  if (typeof document === 'undefined') { return; }
+
+  var SK = root.SK, $ = SK.$, kr = SK.kr, num = SK.num;
+  var chart = SK.createChart($('chart'), $('chartTip'));
+  var YEARS = [5, 10, 15, 20, 30], RATES = [0, 3, 5, 7, 9];
+  var summaryTimer = null;
+
+  function update() {
+    var p = { goal: SK.readField('goal'), start: SK.readField('start'),
+      years: Math.round(SK.readField('years')), rate: SK.readField('rate') };
+    var monthly = Math.ceil(requiredMonthly(p));
+    var rows = plan(p, monthly);
+    var last = rows[rows.length - 1];
+    var deposits = last.deposits;
+    var gain = Math.max(0, last.balance - deposits);
+
+    $('resMonthly').textContent = kr(monthly);
+    $('resMonthlyLabel').textContent = monthly === 0
+      ? 'Ditt startkapital räcker redan för målet inom ' + p.years + ' år'
+      : 'Månadssparande som krävs för att nå ' + kr(p.goal) + ' på ' + p.years + ' år';
+    $('resDeposits').textContent = kr(deposits);
+    $('resGain').textContent = kr(gain);
+    $('resShare').textContent = last.balance > 0 ? SK.pct(100 * gain / last.balance) : '–';
+    $('resFinal').textContent = kr(last.balance);
+
+    var pc = function (v) { return last.balance > 0 ? (100 * v / last.balance).toFixed(2) + '%' : '0%'; };
+    $('segDeposits').style.width = pc(deposits);
+    $('segGain').style.width = pc(gain);
+
+    var head = '<tr><th scope="col">Sparhorisont</th>';
+    RATES.forEach(function (r) { head += '<th scope="col">' + r + '\u00a0% per år</th>'; });
+    $('matrixHead').innerHTML = head + '</tr>';
+    var body = '';
+    YEARS.forEach(function (y) {
+      body += '<tr><th scope="row">' + y + ' år</th>';
+      RATES.forEach(function (r) {
+        body += '<td>' + num(Math.ceil(requiredMonthly({ goal: p.goal, start: p.start, years: y, rate: r }))) + '</td>';
+      });
+      body += '</tr>';
+    });
+    $('matrixBody').innerHTML = body;
+
+    chart.render({
+      series: [
+        { values: rows.map(function (x) { return x.deposits; }), color: '--c-deposit', width: 2 },
+        { values: rows.map(function (x) { return x.balance; }), color: '--c-gain', width: 3, fill: true }
+      ],
+      tipHtml: function (i) {
+        return '<strong>År ' + i + '</strong><br>Värde: ' + kr(rows[i].balance) + '<br>Insatt: ' + kr(rows[i].deposits);
+      }
+    });
+
+    clearTimeout(summaryTimer);
+    summaryTimer = setTimeout(function () {
+      $('liveSummary').textContent = monthly === 0 ? 'Startkapitalet räcker för målet.'
+        : 'Du behöver spara ' + kr(monthly) + ' per månad för att nå ' + kr(p.goal) + ' på ' + p.years + ' år.';
+    }, 500);
+  }
+
+  SK.bindFields(['goal', 'start', 'years', 'rate'], update);
+  update();
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+</body>
+</html>
