@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sparkalkylatorn.se/sitemap.xml
+Sitemap: https://www.sparkalkylatorn.se/sitemap.xml

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sparkalkylator: ränta på ränta och utdelning | Sparkalkylatorn</title>
 <meta name="description" content="Räkna ut hur sparande växer med ränta på ränta och jämför att återinvestera utdelningar med att ta ut dem. Gratis, utan registrering.">
-<link rel="canonical" href="https://sparkalkylatorn.se/sparkalkylator.html">
+<link rel="canonical" href="https://www.sparkalkylatorn.se/sparkalkylator.html">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#0a7358">
 <meta property="og:type" content="website">
@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Sparkalkylatorn">
 <meta property="og:title" content="Sparkalkylator: ränta på ränta och utdelning | Sparkalkylatorn">
 <meta property="og:description" content="Räkna ut hur sparande växer med ränta på ränta och jämför att återinvestera utdelningar med att ta ut dem. Gratis, utan registrering.">
-<meta property="og:url" content="https://sparkalkylatorn.se/sparkalkylator.html">
+<meta property="og:url" content="https://www.sparkalkylatorn.se/sparkalkylator.html">
 <style>
 :root {
   --bg: #f3f6f4;
@@ -77,16 +77,40 @@ a:hover { text-decoration-thickness: 2px; }
 .wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
 
 /* Sidhuvud */
-.site-header { border-bottom: 1px solid var(--line); background: var(--surface); }
+.site-header { border-bottom: 1px solid var(--line); background: var(--surface); position: relative; z-index: 30; }
 .site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; padding-block: 14px; }
 .brand { font: 700 1.25rem/1.2 var(--serif); color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
-.site-nav ul { display: flex; flex-wrap: wrap; gap: 4px 4px; list-style: none; margin: 0; padding: 0; }
-.site-nav a {
-  display: inline-block; padding: 6px 10px; border-radius: 6px; color: var(--ink);
-  text-decoration: none; font-size: 0.97rem; font-weight: 500;
+/* Meny med gardiner */
+.site-nav > ul { display: flex; flex-wrap: wrap; gap: 4px; list-style: none; margin: 0; padding: 0; }
+.nav-group > summary {
+  list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 12px; border-radius: 6px; color: var(--ink); font-size: 0.97rem; font-weight: 600; user-select: none;
 }
-.site-nav a:hover { background: var(--note); }
-.site-nav a[aria-current="page"] { background: var(--note); color: var(--accent); font-weight: 700; }
+.nav-group > summary::-webkit-details-marker { display: none; }
+.nav-group > summary::after {
+  content: ""; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px); transition: transform 0.18s;
+}
+.nav-group[open] > summary::after { transform: rotate(-135deg) translateY(-1px); }
+.nav-group > summary:hover, .nav-group[open] > summary { background: var(--note); }
+.nav-group.has-current > summary { color: var(--accent); }
+.nav-panel {
+  position: absolute; left: 0; right: 0; top: 100%; z-index: 30;
+  background: var(--surface); border-bottom: 1px solid var(--line);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.12); max-height: calc(100vh - 70px); overflow-y: auto;
+  animation: nav-drop 0.18s ease-out;
+}
+.nav-inner { width: min(1080px, 100% - 32px); margin-inline: auto; }
+.nav-inner ul { list-style: none; margin: 0; padding: 14px 0 18px; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 2px 18px; }
+.nav-inner a {
+  display: block; padding: 8px 10px; border-radius: 6px; color: var(--ink);
+  text-decoration: none; font-size: 0.98rem; font-weight: 500;
+}
+.nav-inner a:hover { background: var(--note); }
+.nav-inner a[aria-current="page"] { background: var(--note); color: var(--accent); font-weight: 700; }
+@keyframes nav-drop { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .nav-panel { animation: none; } .nav-group > summary::after { transition: none; } }
+@media (max-width: 640px) { .site-header .wrap { gap: 6px 10px; } .nav-group > summary { padding: 7px 9px; } }
 
 /* Rubriker och text */
 h1, h2, h3 { font-family: var(--serif); line-height: 1.2; letter-spacing: -0.015em; margin: 0 0 0.5em; }
@@ -241,15 +265,34 @@ details.table-details .table-wrap { max-height: 360px; overflow: auto; margin-to
 <div class="wrap">
 <a class="brand" href="index.html">Sparkalkylatorn</a>
 <nav class="site-nav" aria-label="Huvudmeny"><ul>
-<li><a href="index.html">Start</a></li>
+<li><details class="nav-group has-current" name="huvudmeny"><summary>Kalkylatorer</summary>
+<div class="nav-panel"><div class="nav-inner"><ul>
 <li><a href="sparkalkylator.html" aria-current="page">Sparkalkylator</a></li>
 <li><a href="isk-skattekalkylator.html">ISK-skatt</a></li>
 <li><a href="sparmalskalkylator.html">Sparmål</a></li>
-<li><a href="sparkonto.html">Sparränta</a></li>
+<li><a href="fondavgiftskalkylator.html">Fondavgiften i kronor</a></li>
+</ul></div></div></details></li>
+<li><details class="nav-group" name="huvudmeny"><summary>Guider</summary>
+<div class="nav-panel"><div class="nav-inner"><ul>
+<li><a href="isk-forklarad.html">ISK förklarad</a></li>
+<li><a href="isk-eller-fondkonto.html">ISK eller fondkonto?</a></li>
+<li><a href="isk-och-schablonskatt.html">ISK och schablonskatt 2026</a></li>
+<li><a href="ranta-pa-ranta.html">Ränta på ränta</a></li>
+<li><a href="utdelning-eller-kursutveckling.html">Utdelning eller kursutveckling</a></li>
+<li><a href="sparkonto.html">Sparränta och sparkonton</a></li>
 <li><a href="bolan.html">Bolån</a></li>
 <li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
-<li><a href="guider.html">Guider</a></li>
-<li><a href="om-oss.html">Om oss</a></li>
+<li><a href="ordlista.html">Ordlista</a></li>
+<li><a href="guider.html">Alla guider</a></li>
+</ul></div></div></details></li>
+<li><details class="nav-group" name="huvudmeny"><summary>Om sidan</summary>
+<div class="nav-panel"><div class="nav-inner"><ul>
+<li><a href="om-oss.html">Om webbplatsen</a></li>
+<li><a href="metod.html">Så räknar kalkylatorerna</a></li>
+<li><a href="kontakt.html">Kontakt</a></li>
+<li><a href="integritetspolicy.html">Integritetspolicy</a></li>
+<li><a href="friskrivning.html">Friskrivning och villkor</a></li>
+</ul></div></div></details></li>
 </ul></nav>
 </div>
 </header>
@@ -409,7 +452,7 @@ details.table-details .table-wrap { max-height: 360px; overflow: auto; margin-to
 <ul class="card-links">
 <li><a href="isk-skattekalkylator.html"><strong>Förstå ISK-skatten</strong><span>Räkna ut din schablonskatt för 2026, med 300 000 kr skattefritt.</span></a></li>
 <li><a href="sparmalskalkylator.html"><strong>Spara till ett mål</strong><span>Hur mycket behöver du lägga undan varje månad för att nå till exempel 500 000 kr?</span></a></li>
-<li><a href="fondavgiftskalkylator.html"><strong>Se vad fondavgiften kostar</strong><span>Se hur mycket en hög fondavgift kostar dig i kronor över tid.</span></a></li>
+<li><a href="fondavgiftskalkylator.html"><strong>Fondavgiften i kronor</strong><span>Se hur mycket en hög fondavgift kostar dig i kronor över tid.</span></a></li>
 </ul>
 </div>
 </main>
@@ -420,10 +463,11 @@ details.table-details .table-wrap { max-height: 360px; overflow: auto; margin-to
 <li><a href="sparkalkylator.html">Räkna ditt sparande</a></li>
 <li><a href="isk-skattekalkylator.html">Förstå ISK-skatten</a></li>
 <li><a href="sparmalskalkylator.html">Spara till ett mål</a></li>
-<li><a href="fondavgiftskalkylator.html">Se vad fondavgiften kostar</a></li>
+<li><a href="fondavgiftskalkylator.html">Fondavgiften i kronor</a></li>
 </ul></div>
 <div><h2>Guider</h2><ul>
 <li><a href="isk-forklarad.html">ISK förklarad</a></li>
+<li><a href="isk-eller-fondkonto.html">ISK eller fondkonto?</a></li>
 <li><a href="ranta-pa-ranta.html">Ränta på ränta</a></li>
 <li><a href="utdelning-eller-kursutveckling.html">Utdelning eller kursutveckling</a></li>
 <li><a href="isk-och-schablonskatt.html">ISK och schablonskatt 2026</a></li>
@@ -442,7 +486,7 @@ details.table-details .table-wrap { max-height: 360px; overflow: auto; margin-to
 </ul></div>
 </div>
 <p>Innehållet på Sparkalkylatorn är allmän information och exempel. Det är inte investeringsrådgivning, skatterådgivning eller en uppmaning att köpa eller sälja något. Historisk avkastning är ingen garanti för framtida avkastning, och du kan förlora pengar när du sparar i aktier och fonder.</p>
-<p>Senast uppdaterad 13 oktober 2026. &copy; 2026 TP.</p>
+<p>Senast uppdaterad 15 oktober 2026. &copy; 2026 TP.</p>
 </div>
 </footer>
 <script>
@@ -745,6 +789,22 @@ details.table-details .table-wrap { max-height: 360px; overflow: auto; margin-to
   $('method').addEventListener('change', update);
   update();
 })(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>
+/* Menyn med gardiner: en öppen åt gången, stängs vid klick utanför, Escape eller när fokus lämnar menyn. Fungerar även utan JavaScript. */
+(function () {
+  var groups = document.querySelectorAll('.nav-group');
+  if (!groups.length) { return; }
+  function closeAll(except) { groups.forEach(function (g) { if (g !== except) { g.removeAttribute('open'); } }); }
+  groups.forEach(function (g) { g.addEventListener('toggle', function () { if (g.open) { closeAll(g); } }); });
+  document.addEventListener('click', function (e) { if (!e.target.closest('.nav-group')) { closeAll(); } });
+  document.addEventListener('focusin', function (e) { if (!e.target.closest('.nav-group')) { closeAll(); } });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') { return; }
+    var open = document.querySelector('.nav-group[open]');
+    if (open) { open.removeAttribute('open'); open.querySelector('summary').focus(); }
+  });
+})();
 </script>
 </body>
 </html>

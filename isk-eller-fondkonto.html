@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ISK eller fondkonto? Skatt och exempel | Sparkalkylatorn</title>
+<meta name="description" content="Jämför ISK och aktie- och fondkonto: skatt, förluster, utdelningar och brytpunkt för 2026, med räkneexempel i kronor. Se vad som passar ditt sparande.">
+<link rel="canonical" href="https://www.sparkalkylatorn.se/isk-eller-fondkonto.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a7358">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sv_SE">
+<meta property="og:site_name" content="Sparkalkylatorn">
+<meta property="og:title" content="ISK eller fondkonto? Skatt och exempel | Sparkalkylatorn">
+<meta property="og:description" content="Jämför ISK och aktie- och fondkonto: skatt, förluster, utdelningar och brytpunkt för 2026, med räkneexempel i kronor. Se vad som passar ditt sparande.">
+<meta property="og:url" content="https://www.sparkalkylatorn.se/isk-eller-fondkonto.html">
+<style>
+:root {
+  --bg: #f3f6f4;
+  --surface: #ffffff;
+  --ink: #12262b;
+  --muted: #53666b;
+  --line: #d3dcd9;
+  --accent: #0a7358;
+  --accent-ink: #ffffff;
+  --note: #e7f1ed;
+  --c-deposit: #6f858b;
+  --c-gain: #0a7358;
+  --c-payout: #b9770e;
+  --s1: #b9770e;
+  --s2: #0a7358;
+  --s3: #2a5db8;
+  --focus: #1456c8;
+  --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f191c;
+    --surface: #162328;
+    --ink: #e8efee;
+    --muted: #9db0b4;
+    --line: #2a3c41;
+    --accent: #3fd6a6;
+    --accent-ink: #082018;
+    --note: #1a2e30;
+    --c-deposit: #8aa0a6;
+    --c-gain: #3fd6a6;
+    --c-payout: #e9a93c;
+    --s1: #e9a93c;
+    --s2: #3fd6a6;
+    --s3: #7fb0ff;
+    --focus: #8ab4ff;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 1.0625rem/1.65 var(--sans);
+}
+img, svg, canvas { max-width: 100%; }
+a { color: var(--accent); text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+
+.skip {
+  position: absolute; left: 12px; top: -60px; z-index: 10;
+  background: var(--accent); color: var(--accent-ink); padding: 10px 14px; border-radius: 6px;
+}
+.skip:focus { top: 12px; }
+
+.wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
+
+/* Sidhuvud */
+.site-header { border-bottom: 1px solid var(--line); background: var(--surface); position: relative; z-index: 30; }
+.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; padding-block: 14px; }
+.brand { font: 700 1.25rem/1.2 var(--serif); color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+/* Meny med gardiner */
+.site-nav > ul { display: flex; flex-wrap: wrap; gap: 4px; list-style: none; margin: 0; padding: 0; }
+.nav-group > summary {
+  list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 12px; border-radius: 6px; color: var(--ink); font-size: 0.97rem; font-weight: 600; user-select: none;
+}
+.nav-group > summary::-webkit-details-marker { display: none; }
+.nav-group > summary::after {
+  content: ""; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px); transition: transform 0.18s;
+}
+.nav-group[open] > summary::after { transform: rotate(-135deg) translateY(-1px); }
+.nav-group > summary:hover, .nav-group[open] > summary { background: var(--note); }
+.nav-group.has-current > summary { color: var(--accent); }
+.nav-panel {
+  position: absolute; left: 0; right: 0; top: 100%; z-index: 30;
+  background: var(--surface); border-bottom: 1px solid var(--line);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.12); max-height: calc(100vh - 70px); overflow-y: auto;
+  animation: nav-drop 0.18s ease-out;
+}
+.nav-inner { width: min(1080px, 100% - 32px); margin-inline: auto; }
+.nav-inner ul { list-style: none; margin: 0; padding: 14px 0 18px; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 2px 18px; }
+.nav-inner a {
+  display: block; padding: 8px 10px; border-radius: 6px; color: var(--ink);
+  text-decoration: none; font-size: 0.98rem; font-weight: 500;
+}
+.nav-inner a:hover { background: var(--note); }
+.nav-inner a[aria-current="page"] { background: var(--note); color: var(--accent); font-weight: 700; }
+@keyframes nav-drop { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .nav-panel { animation: none; } .nav-group > summary::after { transition: none; } }
+@media (max-width: 640px) { .site-header .wrap { gap: 6px 10px; } .nav-group > summary { padding: 7px 9px; } }
+
+/* Rubriker och text */
+h1, h2, h3 { font-family: var(--serif); line-height: 1.2; letter-spacing: -0.015em; margin: 0 0 0.5em; }
+h1 { font-size: clamp(1.9rem, 4.6vw, 2.8rem); font-weight: 700; }
+h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-top: 2.2em; }
+h3 { font-size: 1.2rem; margin-top: 1.7em; }
+p, ul, ol { margin: 0 0 1.1em; }
+.lede { font-size: 1.2rem; color: var(--muted); max-width: 46rem; }
+.meta { color: var(--muted); font-size: 0.92rem; }
+
+.page-head { padding-block: 40px 8px; }
+.prose { max-width: 44rem; padding-bottom: 40px; }
+.prose li { margin-bottom: 0.4em; }
+.prose code, .formula {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.95em;
+}
+.formula {
+  display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: 14px 16px; margin: 0 0 1.2em; overflow-x: auto; white-space: nowrap;
+}
+.note {
+  background: var(--note); border-left: 4px solid var(--accent); border-radius: 6px;
+  padding: 14px 16px; margin: 0 0 1.2em;
+}
+.note p:last-child { margin-bottom: 0; }
+
+.table-wrap { overflow-x: auto; margin: 0 0 1.3em; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.97rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; }
+thead th { font-weight: 700; background: var(--note); position: sticky; top: 0; }
+tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+caption { text-align: left; padding: 10px 12px; font-weight: 700; }
+
+dl.glossary dt { font-family: var(--serif); font-weight: 700; font-size: 1.15rem; margin-top: 1.4em; }
+dl.glossary dd { margin: 0.2em 0 0; }
+
+.card-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; padding: 0; list-style: none; margin: 0 0 2em; }
+.card-links a {
+  display: block; height: 100%; padding: 18px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; text-decoration: none; color: var(--ink);
+}
+.card-links a:hover { border-color: var(--accent); }
+.card-links strong { display: block; font: 700 1.1rem/1.3 var(--serif); margin-bottom: 4px; color: var(--accent); }
+.card-links span { color: var(--muted); font-size: 0.96rem; }
+
+/* Kalkylator */
+.calc { display: grid; gap: 24px; margin-block: 24px 36px; }
+@media (min-width: 900px) { .calc { grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); align-items: start; } }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+.panel h2 { margin: 0 0 14px; font-size: 1.25rem; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+.field { margin-bottom: 18px; }
+.field label { display: block; font-weight: 600; margin-bottom: 6px; }
+.field .hint { display: block; font-weight: 400; font-size: 0.88rem; color: var(--muted); }
+.field-row { display: flex; align-items: center; gap: 14px; }
+.field-row input[type="range"] { flex: 1; min-width: 0; accent-color: var(--accent); height: 28px; }
+input[type="number"], select {
+  font: inherit; font-weight: 600; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-height: 44px;
+}
+input[type="number"] { width: 9.5rem; text-align: right; }
+select { width: 100%; }
+.check { display: flex; gap: 10px; align-items: center; padding-top: 14px; border-top: 1px solid var(--line); margin-bottom: 18px; }
+.check input { width: 22px; height: 22px; accent-color: var(--accent); }
+.check label { font-weight: 600; margin: 0; }
+
+.results h2 { margin-bottom: 4px; }
+.big { font: 700 clamp(2.1rem, 6vw, 3.1rem)/1.1 var(--serif); letter-spacing: -0.02em; color: var(--accent); margin: 4px 0 16px; font-variant-numeric: tabular-nums; }
+.bar { display: flex; height: 18px; border-radius: 9px; overflow: hidden; background: var(--line); margin-bottom: 10px; }
+.bar span { display: block; height: 100%; min-width: 0; transition: width 0.25s ease; }
+.bar [hidden] { display: none; }
+#segDeposits { background: var(--c-deposit); }
+#segGain { background: var(--c-gain); }
+#segWithdrawn { background: var(--c-payout); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 18px; font-size: 0.93rem; color: var(--muted); }
+.legend li::before {
+  content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px;
+  background: var(--sw, var(--c-deposit));
+}
+.legend [data-sw="gain"]::before { --sw: var(--c-gain); }
+.legend [data-sw="payout"]::before { --sw: var(--c-payout); }
+.legend [hidden] { display: none; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 0; }
+.stats div { border-top: 1px solid var(--line); padding-top: 8px; }
+.stats [hidden] { display: none; }
+.stats dt { font-size: 0.92rem; color: var(--muted); }
+.stats dd { margin: 2px 0 0; font-weight: 700; font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+
+.chart-panel { margin-top: 24px; }
+.chart-box { position: relative; }
+.chart-tip {
+  position: absolute; pointer-events: none; z-index: 2; background: var(--ink); color: var(--bg);
+  padding: 8px 10px; border-radius: 6px; font-size: 0.88rem; line-height: 1.45; white-space: nowrap;
+}
+.chart-box canvas { display: block; touch-action: pan-y; }
+details.table-details { margin-top: 14px; }
+details.table-details summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+details.table-details .table-wrap { max-height: 360px; overflow: auto; margin-top: 8px; }
+
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Sidfot */
+.site-footer { border-top: 1px solid var(--line); background: var(--surface); margin-top: 48px; padding-block: 28px; font-size: 0.95rem; }
+.site-footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 14px; }
+.site-footer p { color: var(--muted); max-width: 50rem; margin-bottom: 0.6em; }
+
+@media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+
+/* Tillägg: nav med fler sidor, verktygskort, sidfot i kolumner */
+[hidden] { display: none !important; }
+.card-links.tools { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.card-links.tools a { padding: 22px; }
+.card-links.tools strong { font-size: 1.3rem; margin-bottom: 6px; }
+.card-links.tools span { font-size: 1rem; }
+.legend [data-sw="s1"]::before { --sw: var(--s1); }
+.legend [data-sw="s2"]::before { --sw: var(--s2); }
+.legend [data-sw="s3"]::before { --sw: var(--s3); }
+.field-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.field-grid .field { margin-bottom: 0; }
+.field-grid input[type="number"] { width: 100%; }
+.field-grid label { font-size: 0.95rem; }
+.scenarios { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 6px 0 18px; }
+.scenarios div { border-top: 4px solid var(--sc, var(--accent)); padding-top: 8px; }
+.scenarios [data-sc="1"] { --sc: var(--s1); }
+.scenarios [data-sc="2"] { --sc: var(--s2); }
+.scenarios [data-sc="3"] { --sc: var(--s3); }
+.scenarios dt { font-size: 0.92rem; color: var(--muted); }
+.scenarios dd { margin: 2px 0 0; font: 700 1.45rem/1.2 var(--serif); font-variant-numeric: tabular-nums; }
+.foot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 22px; margin-bottom: 18px; }
+.foot-grid h2 { font: 700 1rem/1.3 var(--sans); margin: 0 0 8px; letter-spacing: 0; }
+.foot-grid ul { display: block; margin: 0; }
+.foot-grid li { margin-bottom: 4px; }
+.tools-block { margin-top: 8px; }
+
+.calc > *, .panel { min-width: 0; }
+.prose, .panel { overflow-wrap: break-word; }
+.prose a, .site-footer a { overflow-wrap: anywhere; }
+</style>
+<!-- Cookie-samtycke och Google Analytics. Mät-ID fylls i i assets/cookie-consent.js. -->
+<script src="assets/cookie-consent.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#innehall">Hoppa till innehållet</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="index.html">Sparkalkylatorn</a>
+<nav class="site-nav" aria-label="Huvudmeny"><ul>
+<li><details class="nav-group" name="huvudmeny"><summary>Kalkylatorer</summary>
+<div class="nav-panel"><div class="nav-inner"><ul>
+<li><a href="sparkalkylator.html">Sparkalkylator</a></li>
+<li><a href="isk-skattekalkylator.html">ISK-skatt</a></li>
+<li><a href="sparmalskalkylator.html">Sparmål</a></li>
+<li><a href="fondavgiftskalkylator.html">Fondavgiften i kronor</a></li>
+</ul></div></div></details></li>
+<li><details class="nav-group has-current" name="huvudmeny"><summary>Guider</summary>
+<div class="nav-panel"><div class="nav-inner"><ul>
+<li><a href="isk-forklarad.html">ISK förklarad</a></li>
+<li><a href="isk-eller-fondkonto.html" aria-current="page">ISK eller fondkonto?</a></li>
+<li><a href="isk-och-schablonskatt.html">ISK och schablonskatt 2026</a></li>
+<li><a href="ranta-pa-ranta.html">Ränta på ränta</a></li>
+<li><a href="utdelning-eller-kursutveckling.html">Utdelning eller kursutveckling</a></li>
+<li><a href="sparkonto.html">Sparränta och sparkonton</a></li>
+<li><a href="bolan.html">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="ordlista.html">Ordlista</a></li>
+<li><a href="guider.html">Alla guider</a></li>
+</ul></div></div></details></li>
+<li><details class="nav-group" name="huvudmeny"><summary>Om sidan</summary>
+<div class="nav-panel"><div class="nav-inner"><ul>
+<li><a href="om-oss.html">Om webbplatsen</a></li>
+<li><a href="metod.html">Så räknar kalkylatorerna</a></li>
+<li><a href="kontakt.html">Kontakt</a></li>
+<li><a href="integritetspolicy.html">Integritetspolicy</a></li>
+<li><a href="friskrivning.html">Friskrivning och villkor</a></li>
+</ul></div></div></details></li>
+</ul></nav>
+</div>
+</header>
+<main id="innehall">
+<div class="wrap page-head">
+<h1>ISK eller aktie- och fondkonto: vad lönar sig?</h1>
+<p class="lede">Så skiljer sig skatten, när ISK blir billigare än ett vanligt aktie- och fondkonto och när det inte blir det, med exempel i kronor.</p>
+<p class="meta">Senast uppdaterad 15 oktober 2026. Gäller beskattningsår 2026.</p>
+</div><div class="wrap"><div class="prose">
+
+<div class="note"><p><strong>Allmän information.</strong> Skatteregler ändras, och den här guiden är inte rådgivning. Siffrorna är räkneexempel, inte prognoser. Kontrollera aktuella regler hos <a href="https://www.skatteverket.se" rel="noopener">Skatteverket</a> eller din bank.</p></div>
+
+<h2>Kort svar</h2>
+<p>Ingen av kontotyperna är bäst för alla. ISK betalar du skatt på varje år, oavsett om sparandet har gått bra eller dåligt. På ett aktie- och fondkonto (ofta förkortat AF-konto) betalar du 30 % på vinster när du säljer och på utdelningar när de kommer. I exemplen nedan blir ISK billigast i de flesta fall, men inte i alla: med stora belopp och låg avkastning kan aktie- och fondkonto bli billigare.</p>
+
+<h2>Så beskattas kontona</h2>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Egenskap</th><th scope="col">ISK</th><th scope="col">Aktie- och fondkonto</th></tr></thead>
+<tbody>
+<tr><th scope="row">Skatten</th><td>Schablonskatt på kontots värde, 1,065 % av underlaget över 300 000 kr för 2026</td><td>30 % på vinst när du säljer och på utdelningar</td></tr>
+<tr><th scope="row">När betalar du?</th><td>Varje år, även om du inte säljer något</td><td>När du säljer med vinst, och varje år på utdelningar</td></tr>
+<tr><th scope="row">Skattefritt belopp</th><td>300 000 kr per person för 2026, sammanlagt för alla dina ISK och kapitalförsäkringar</td><td>Inget motsvarande</td></tr>
+<tr><th scope="row">Utdelningar</th><td>Beskattas inte separat</td><td>30 % skatt när de betalas ut</td></tr>
+<tr><th scope="row">Förluster</th><td>Ingen avdragsrätt</td><td>Kan dras av enligt särskilda regler</td></tr>
+<tr><th scope="row">Insättningar</th><td>Ökar kapitalunderlaget och därmed skatten</td><td>Påverkar inte skatten</td></tr>
+<tr><th scope="row">Deklaration</th><td>Banken rapporterar</td><td>Du redovisar försäljningar</td></tr>
+<tr><th scope="row">Utländsk källskatt</th><td>Kan i regel inte avräknas</td><td>Kan ofta avräknas i deklarationen</td></tr>
+</tbody></table></div>
+<p>Skattereglerna för ISK beskrivs närmare i guiden <a href="isk-och-schablonskatt.html">ISK och schablonskatt 2026</a>, och du kan räkna på ditt eget belopp i <a href="isk-skattekalkylator.html">ISK-skattekalkylatorn</a>. Skatt på utländska utdelningar är en detalj som skiljer sig mellan länder och konton, så kontrollera den hos Skatteverket eller din bank.</p>
+
+<h2>Ett enkelt exempel: ett år</h2>
+<p>Anta att du har 500 000 kr på kontot hela året och sätter in inget mer. På ett ISK blir skatten <strong>2 130 kr</strong> oavsett vad sparandet ger: (500 000 − 300 000) × 3,55 % × 30 %. På ett aktie- och fondkonto beror skatten på hur stor vinsten blir, om du säljer:</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Avkastning</th><th scope="col">Vinst</th><th scope="col">Skatt på aktie- och fondkonto</th><th scope="col">Skatt på ISK</th></tr></thead>
+<tbody>
+<tr><th scope="row">0 %</th><td>0 kr</td><td>0 kr</td><td>2 130 kr</td></tr>
+<tr><th scope="row">2 %</th><td>10 000 kr</td><td>3 000 kr</td><td>2 130 kr</td></tr>
+<tr><th scope="row">7 %</th><td>35 000 kr</td><td>10 500 kr</td><td>2 130 kr</td></tr>
+</tbody></table></div>
+<p>Vid 0 % betalar du bara skatt på ISK, och vid 7 % blir ISK flera gånger billigare. Brytpunkten för ett års sparande ligger på cirka 1,4 % i avkastning, eftersom de första 300 000 kr är skattefria på ISK. Utan det skattefria beloppet ligger brytpunkten vid 3,55 %, eftersom 1,065 % delat med 30 % är 3,55 %.</p>
+
+<h2>Över tid: 20 års sparande</h2>
+<p>Ett års jämförelse säger inte hela sanningen. På ett aktie- och fondkonto betalar du skatten först när du säljer, så vinsten får växa orörd under tiden, medan ISK-skatten tas ut varje år. Det gör att aktie- och fondkonto blir relativt sett bättre ju längre du sparar. Tabellen visar vad som återstår efter skatt när du sparar i 20 år utan att sätta in något mer, och säljer allt i slutet. Avkastningen är bara kursutveckling:</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Startbelopp</th><th scope="col">Avkastning per år</th><th scope="col">ISK efter skatt</th><th scope="col">Aktie- och fondkonto efter skatt</th><th scope="col">Skillnad</th></tr></thead>
+<tbody>
+<tr><th scope="row">100 000 kr</th><td>2 %</td><td>148 595 kr</td><td>134 016 kr</td><td>ISK +14 578 kr</td></tr>
+<tr><th scope="row">100 000 kr</th><td>5 %</td><td>265 330 kr</td><td>215 731 kr</td><td>ISK +49 599 kr</td></tr>
+<tr><th scope="row">100 000 kr</th><td>8 %</td><td>461 215 kr</td><td>356 267 kr</td><td>ISK +104 948 kr</td></tr>
+<tr><th scope="row">500 000 kr</th><td>2 %</td><td>671 195 kr</td><td>670 082 kr</td><td>Nästan lika (ISK +1 113 kr)</td></tr>
+<tr><th scope="row">500 000 kr</th><td>5 %</td><td>1 172 149 kr</td><td>1 078 654 kr</td><td>ISK +93 495 kr</td></tr>
+<tr><th scope="row">500 000 kr</th><td>8 %</td><td>2 029 872 kr</td><td>1 781 335 kr</td><td>ISK +248 537 kr</td></tr>
+<tr><th scope="row">2 000 000 kr</th><td>2 %</td><td>2 475 219 kr</td><td>2 680 326 kr</td><td>Aktie- och fondkonto +205 107 kr</td></tr>
+<tr><th scope="row">2 000 000 kr</th><td>5 %</td><td>4 405 670 kr</td><td>4 314 617 kr</td><td>ISK +91 053 kr</td></tr>
+<tr><th scope="row">2 000 000 kr</th><td>8 %</td><td>7 730 659 kr</td><td>7 125 340 kr</td><td>ISK +605 319 kr</td></tr>
+</tbody></table></div>
+<p>Med 2 000 000 kr och 2 % i avkastning blir aktie- och fondkonto ungefär -205 000 kr bättre efter 20 år, eftersom ISK-skatten tas varje år även när avkastningen är låg. Med lägre belopp och högre avkastning går det tvärtom. Med 100 000 kr skattas ISK inte alls förrän värdet passerar 300 000 kr.</p>
+
+<h2>Vid vilken avkastning blir ISK billigare?</h2>
+<p>Tabellen visar den årliga avkastning där ISK och aktie- och fondkonto ger samma belopp efter skatt. Ligger din förväntade avkastning över siffran blir ISK billigare i beräkningen, och ligger den under blir aktie- och fondkonto det.</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Startbelopp</th><th scope="col">10 år</th><th scope="col">20 år</th><th scope="col">30 år</th></tr></thead>
+<tbody>
+<tr><th scope="row">100 000 kr</th><td>Alltid ISK</td><td>Alltid ISK</td><td>Alltid ISK</td></tr>
+<tr><th scope="row">500 000 kr</th><td>1,6 %</td><td>2,0 %</td><td>2,5 %</td></tr>
+<tr><th scope="row">1 000 000 kr</th><td>2,9 %</td><td>3,5 %</td><td>4,8 %</td></tr>
+<tr><th scope="row">2 000 000 kr</th><td>3,5 %</td><td>4,2 %</td><td>6,0 %</td></tr>
+</tbody></table></div>
+<p>Två saker syns tydligt. Ju större belopp du har, desto högre avkastning krävs för att ISK ska löna sig. Och ju längre du sparar, desto högre blir brytpunkten, eftersom aktie- och fondkontot skjuter upp skatten. Därför är jämförelsen mest intressant för dig som har över 300 000 kr och sparar långsiktigt. Under den nivån är ISK ofta billigast.</p>
+
+<h2>Var avkastningen kommer ifrån spelar roll</h2>
+<p>Utdelningar beskattas varje år på ett aktie- och fondkonto, men inte alls separat på ett ISK. Det syns om du jämför två sparanden med samma totala avkastning, 7 % per år, på 500 000 kr i 20 år:</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Konto och avkastning</th><th scope="col">Efter skatt efter 20 år</th></tr></thead>
+<tbody>
+<tr><th scope="row">ISK, 7 % totalt</th><td>1 692 160 kr</td></tr>
+<tr><th scope="row">Aktie- och fondkonto, 7 % i kursutveckling</th><td>1 504 390 kr</td></tr>
+<tr><th scope="row">Aktie- och fondkonto, 3 % utdelning och 4 % kursutveckling</th><td>1 410 995 kr</td></tr>
+</tbody></table></div>
+<p>Skillnaden mellan de två sista raderna beror på att utdelningarna beskattas varje år, så mindre pengar återinvesteras. Har du fonder eller aktier som delar ut mycket gynnas ISK mer.</p>
+
+<h2>Så har vi räknat</h2>
+<ul>
+<li>ISK: skattefria 300 000 kr och schablonränta 3,55 % under alla år, skatten 30 % av schablonintäkten. Kapitalunderlaget är genomsnittet av värdet vid årets fyra kvartalsskiften. Skatten dras från kontot i slutet av varje år, vilket förenklar att den i verkligheten betalas i deklarationen.</li>
+<li>Aktie- och fondkonto: 30 % skatt på vinsten när allt säljs i slutet. Utdelningar beskattas med 30 % varje år och återinvesteras efter skatt. Förluster och avdragsregler är inte medräknade.</li>
+<li>Samma avkastning varje år, inga insättningar eller uttag, och inga avgifter eller courtage. Räkna med avgifter i <a href="fondavgiftskalkylator.html">kalkylatorn för fondavgiften i kronor</a>.</li>
+</ul>
+<p>Schablonräntan ändras varje år, och verkligheten är mer ojämn än ett exempel med konstant avkastning. Ta därför siffrorna som en riktning och inte som ett facit.</p>
+
+<h2>När passar vilket konto?</h2>
+<h3>ISK passar ofta bättre när</h3>
+<ul>
+<li>du har ett mindre eller medelstort belopp. Under 300 000 kr betalar du ingen skatt alls.</li>
+<li>du räknar med bra avkastning över tid, särskilt över brytpunkten i tabellen ovan.</li>
+<li>du äger fonder eller aktier som delar ut mycket.</li>
+<li>du vill slippa redovisa varje försäljning i deklarationen och köper och säljer ofta.</li>
+</ul>
+<h3>Aktie- och fondkonto kan passa bättre när</h3>
+<ul>
+<li>du har ett stort belopp och räknar med låg avkastning, eftersom ISK-skatten tas även när sparandet inte ger något.</li>
+<li>du har förluster som du kan dra av mot vinster.</li>
+<li>du äger utländska värdepapper med källskatt som du vill kunna avräkna.</li>
+<li>du redan har stora vinster som du inte vill realisera. Att flytta värdepapper från ett aktie- och fondkonto till ett ISK räknas normalt som en försäljning, och då kan du få skatt på vinsten.</li>
+</ul>
+<p>Många har båda kontotyperna. Det går bra att ha ett ISK för långsiktigt sparande och ett aktie- och fondkonto för det som passar där bättre. Det skattefria beloppet på 300 000 kr gäller dock per person och delas av alla dina ISK och kapitalförsäkringar.</p>
+
+<h2>Vanliga misstag</h2>
+<ul>
+<li><strong>Att tro att ISK alltid är billigast.</strong> Med stora belopp och låg avkastning kan det vara tvärtom.</li>
+<li><strong>Att bara titta på ett års skatt.</strong> Uppskovet på ett aktie- och fondkonto spelar större roll ju längre du sparar.</li>
+<li><strong>Att glömma att insättningar ökar skatten på ISK.</strong> Pengar du sätter in ökar kapitalunderlaget.</li>
+<li><strong>Att glömma avgifterna.</strong> Fondavgift och courtage kan betyda lika mycket som skatten, så jämför dem också.</li>
+</ul>
+
+<h2>Så väljer du, steg för steg</h2>
+<ol>
+<li>Räkna ut vad ISK skulle kosta dig med ditt belopp i <a href="isk-skattekalkylator.html">ISK-skattekalkylatorn</a>.</li>
+<li>Gör en försiktig uppskattning av avkastningen och jämför med brytpunkterna ovan.</li>
+<li>Jämför avgifterna. Se vad olika fondavgifter kostar i <a href="fondavgiftskalkylator.html">fondavgiftskalkylatorn</a>.</li>
+<li>Kontrollera reglerna hos <a href="https://www.skatteverket.se" rel="noopener">Skatteverket</a> eller din bank innan du bestämmer dig.</li>
+</ol>
+
+<h2>Vanliga frågor</h2>
+<h3>Kan jag ha både ISK och aktie- och fondkonto?</h3>
+<p>Ja, och det är vanligt. De beskattas var för sig, men det skattefria beloppet på ISK delas mellan alla dina ISK och kapitalförsäkringar.</p>
+<h3>Kan jag flytta mina värdepapper från ett aktie- och fondkonto till ISK utan skatt?</h3>
+<p>Normalt inte. Flytten räknas som en försäljning, så du kan få skatt på vinsten. Fråga banken eller Skatteverket innan du flyttar.</p>
+<h3>Vad händer om kontot går med förlust?</h3>
+<p>På ISK betalar du schablonskatt ändå, och du får inget avdrag. På ett aktie- och fondkonto kan förluster dras av mot vinster enligt särskilda regler.</p>
+<h3>Ändras schablonräntan?</h3>
+<p>Ja, den bestäms varje år utifrån statslåneräntan den 30 november året före, plus en procentenhet, och är aldrig lägre än 1,25 %. För 2026 är den 3,55 %. Skatten på ISK kan alltså bli högre eller lägre kommande år.</p>
+<h3>Är kapitalförsäkring samma sak som ISK?</h3>
+<p>De beskattas på liknande sätt med en schablon, men på en kapitalförsäkring äger försäkringsbolaget tillgångarna. Läs mer i <a href="isk-forklarad.html">ISK förklarad</a>.</p>
+
+</div></div><div class="wrap tools-block"><h2>Läs vidare</h2>
+<ul class="card-links">
+<li><a href="isk-forklarad.html"><strong>ISK förklarad</strong><span>Vad ett investeringssparkonto är, hur det skiljer sig från andra konton och när det passar.</span></a></li>
+<li><a href="isk-och-schablonskatt.html"><strong>ISK och schablonskatt 2026</strong><span>Så räknar du ut skatten, med exempel.</span></a></li>
+<li><a href="ordlista.html"><strong>Ordlista</strong><span>Begreppen förklarade på vanlig svenska.</span></a></li>
+</ul>
+</div><div class="wrap tools-block"><h2>Prova kalkylatorerna</h2>
+<ul class="card-links">
+<li><a href="isk-skattekalkylator.html"><strong>Förstå ISK-skatten</strong><span>Räkna ut din schablonskatt för 2026, med 300 000 kr skattefritt.</span></a></li>
+<li><a href="fondavgiftskalkylator.html"><strong>Fondavgiften i kronor</strong><span>Se hur mycket en hög fondavgift kostar dig i kronor över tid.</span></a></li>
+<li><a href="sparkalkylator.html"><strong>Räkna ditt sparande</strong><span>Se hur startkapital, månadssparande och utdelningar växer med ränta på ränta.</span></a></li>
+</ul>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="foot-grid">
+<div><h2>Kalkylatorer</h2><ul>
+<li><a href="sparkalkylator.html">Räkna ditt sparande</a></li>
+<li><a href="isk-skattekalkylator.html">Förstå ISK-skatten</a></li>
+<li><a href="sparmalskalkylator.html">Spara till ett mål</a></li>
+<li><a href="fondavgiftskalkylator.html">Fondavgiften i kronor</a></li>
+</ul></div>
+<div><h2>Guider</h2><ul>
+<li><a href="isk-forklarad.html">ISK förklarad</a></li>
+<li><a href="isk-eller-fondkonto.html">ISK eller fondkonto?</a></li>
+<li><a href="ranta-pa-ranta.html">Ränta på ränta</a></li>
+<li><a href="utdelning-eller-kursutveckling.html">Utdelning eller kursutveckling</a></li>
+<li><a href="isk-och-schablonskatt.html">ISK och schablonskatt 2026</a></li>
+<li><a href="sparkonto.html">Sparränta och sparkonton</a></li>
+<li><a href="bolan.html">Bolån</a></li>
+<li><a href="sanka-utgifter.html">Sänka utgifter</a></li>
+<li><a href="ordlista.html">Ordlista</a></li>
+</ul></div>
+<div><h2>Om webbplatsen</h2><ul>
+<li><a href="om-oss.html">Om webbplatsen</a></li>
+<li><a href="metod.html">Så räknar kalkylatorerna</a></li>
+<li><a href="kontakt.html">Kontakt</a></li>
+<li><a href="integritetspolicy.html">Integritetspolicy</a></li>
+<li><a href="friskrivning.html">Friskrivning och villkor</a></li>
+<li><button type="button" class="cc-link" data-cookie-settings>Cookieinställningar</button></li>
+</ul></div>
+</div>
+<p>Innehållet på Sparkalkylatorn är allmän information och exempel. Det är inte investeringsrådgivning, skatterådgivning eller en uppmaning att köpa eller sälja något. Historisk avkastning är ingen garanti för framtida avkastning, och du kan förlora pengar när du sparar i aktier och fonder.</p>
+<p>Senast uppdaterad 15 oktober 2026. &copy; 2026 TP.</p>
+</div>
+</footer>
+<script>
+/* Menyn med gardiner: en öppen åt gången, stängs vid klick utanför, Escape eller när fokus lämnar menyn. Fungerar även utan JavaScript. */
+(function () {
+  var groups = document.querySelectorAll('.nav-group');
+  if (!groups.length) { return; }
+  function closeAll(except) { groups.forEach(function (g) { if (g !== except) { g.removeAttribute('open'); } }); }
+  groups.forEach(function (g) { g.addEventListener('toggle', function () { if (g.open) { closeAll(g); } }); });
+  document.addEventListener('click', function (e) { if (!e.target.closest('.nav-group')) { closeAll(); } });
+  document.addEventListener('focusin', function (e) { if (!e.target.closest('.nav-group')) { closeAll(); } });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') { return; }
+    var open = document.querySelector('.nav-group[open]');
+    if (open) { open.removeAttribute('open'); open.querySelector('summary').focus(); }
+  });
+})();
+</script>
+</body>
+</html>
